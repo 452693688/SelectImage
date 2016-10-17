@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class ImageFile {
     public List<ImageBean> imags;
+    private String filePath;
     //文件名
     private String name;
     //文件数量
@@ -23,7 +24,13 @@ public class ImageFile {
         }
         return fileImage;
     }
-
+    //获取路径
+    public String getFilePath() {
+        if (TextUtils.isEmpty(filePath)) {
+            filePath = imags.get(1).path;
+        }
+        return filePath;
+    }
     //获取文件名称
     public String getFileName() {
         if (TextUtils.isEmpty(name)) {

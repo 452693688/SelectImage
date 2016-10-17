@@ -1,6 +1,7 @@
 package com.app.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.bean.ImageBean;
 import com.app.config.ConfigBuile;
@@ -27,8 +29,10 @@ public class ImagesAdapter extends BaseAdapter {
     private List<ImageBean> images = new ArrayList<ImageBean>();
     private AbsListView.LayoutParams itemLayoutParams;
     private ArrayList<String> paths = new ArrayList<>();
+    private Context contex;
 
-    public ImagesAdapter() {
+    public ImagesAdapter(Context contex) {
+        this.contex = contex;
     }
 
     //设置照片的大小
@@ -60,14 +64,24 @@ public class ImagesAdapter extends BaseAdapter {
         return images.get(i);
     }
 
-    public void addORremovePath(String path) {
+    public void addORremovePath(int index, int max) {
+        String path = images.get(index).path;
         boolean isExist = paths.contains(path);
         if (isExist) {
             paths.remove(path);
-        } else {
+        }
+        if (!isExist && index == max) {
+            Toast.makeText(contex, "已达选择上限", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!isExist) {
             paths.add(path);
         }
         notifyDataSetChanged();
+    }
+
+    public ArrayList<String> getPaths() {
+        return paths;
     }
 
     @Override

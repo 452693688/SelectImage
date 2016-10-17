@@ -10,6 +10,8 @@
             android:name="com.app.activity.ImageSelectActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.app.activity.IncidentActivity">
+        </activity>
     </application>
 
 </manifest>

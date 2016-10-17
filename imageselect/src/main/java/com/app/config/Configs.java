@@ -6,13 +6,15 @@ import java.io.Serializable;
  * Created by Administrator on 2016/10/17.
  */
 public class Configs implements Serializable {
+    public static final int TASK_COMPLETE=200;
     //可开启相机
     private boolean showCamera;
     //多选
     private boolean isMore;
     //最多可多照片的数量
     private int imageSelectMaximum;
-
+    //照片存储路径
+    private String filePath;
     //裁剪
     private boolean isCrop;
     private int aspectX;
@@ -132,5 +134,13 @@ public class Configs implements Serializable {
 
     public void setOnlyPhotograph(boolean onlyPhotograph) {
         this.onlyPhotograph = onlyPhotograph;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

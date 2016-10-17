@@ -48,6 +48,10 @@ public class ImageMnager implements LoaderManager.LoaderCallbacks<Cursor> {
         return cursorLoader;
     }
 
+    @Override
+    public void onLoaderReset(Loader loader) {
+
+    }
 
     @Override
     public void onLoadFinished(Loader loader, Cursor data) {
@@ -71,7 +75,7 @@ public class ImageMnager implements LoaderManager.LoaderCallbacks<Cursor> {
                 String fileName = folderFile.getName();
                 String filePath = folderFile.getAbsolutePath();
                 //
-                ImageBean image = new ImageBean(path, fileName, name, dateTime);
+                ImageBean image = new ImageBean(path,filePath, fileName, name, dateTime);
                 List<ImageBean> list = map.get(filePath);
                 if (list == null) {
                     list = new ArrayList<ImageBean>();
@@ -95,12 +99,14 @@ public class ImageMnager implements LoaderManager.LoaderCallbacks<Cursor> {
         onLoadingListener.onLoadingListener(fils);
     }
 
-    private ImageFile getFristBean(List<ImageBean> list, int type) {
+
+
+    public ImageFile getFristBean(List<ImageBean> list, int type) {
         ImageFile file = new ImageFile();
         file.size = list.size();
         //需要拍照，添加一个默认照片
         if (showCamera) {
-            ImageBean image = new ImageBean("", "", "", 0);
+            ImageBean image = new ImageBean("", "","", "", 0);
             list.add(0, image);
         }
         file.imags = list;
@@ -111,10 +117,6 @@ public class ImageMnager implements LoaderManager.LoaderCallbacks<Cursor> {
         return file;
     }
 
-    @Override
-    public void onLoaderReset(Loader loader) {
-
-    }
 
     private OnLoadingListener onLoadingListener;
 

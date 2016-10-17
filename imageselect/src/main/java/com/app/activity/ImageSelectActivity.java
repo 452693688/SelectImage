@@ -1,9 +1,10 @@
 package com.app.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
@@ -20,23 +21,24 @@ import com.app.bean.ImageBean;
 import com.app.bean.ImageFile;
 import com.app.config.Configs;
 import com.app.imageselect.R;
-import com.app.utils.DateUtils;
-import com.app.utils.ImageMnager;
+import com.app.utils.DateUtile;
+import com.app.utils.FileUtile;
 
-import java.util.List;
+import java.io.File;
 
 
 //选择图片
 public class ImageSelectActivity extends AppCompatActivity implements
         View.OnClickListener, AdapterView.OnItemClickListener {
 
-    private Configs config;
-    private TextView timeTv;
-    private ImagesAdapter iamgesAdapter;
-    private PopupAdapter popupAdapter;
-    private ListPopupWindow fileLv;
-    private View footerRl;
-    private Button fileBtn;
+    protected Configs config;
+    protected TextView timeTv;
+    protected ImagesAdapter iamgesAdapter;
+    protected PopupAdapter popupAdapter;
+    protected ListPopupWindow fileLv;
+    protected View footerRl;
+    protected Button fileBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,7 @@ public class ImageSelectActivity extends AppCompatActivity implements
 
     private void init() {
         GridView iamgeGv = (GridView) findViewById(R.id.image_gv);
-        iamgesAdapter = new ImagesAdapter();
+        iamgesAdapter = new ImagesAdapter(this);
         iamgesAdapter.setItemSize(this);
         iamgeGv.setAdapter(iamgesAdapter);
         timeTv = (TextView) findViewById(R.id.time_tv);
@@ -83,86 +85,106 @@ public class ImageSelectActivity extends AppCompatActivity implements
                     int index = firstVisibleItem + 1 == view.getAdapter().getCount() ? view.getAdapter().getCount() - 1 : firstVisibleItem + 1;
                     ImageBean image = (ImageBean) view.getAdapter().getItem(index);
                     if (image != null) {
-                        timeTv.setText(DateUtils.formatPhotoDate(image.path));
+                        timeTv.setText(DateUtile.formatPhotoDate(image.path));
                     }
                 }
             }
         });
-        //
-        doRequest();
+        iamgeGv.setOnItemClickListener(this);
+        incident();
     }
 
-
-    private ImageMnager imageMnager;
-
-    private void doRequest() {
-        if (imageMnager == null) {
-            imageMnager = new ImageMnager(this,config.isShowCamera());
-            imageMnager.setOnLoadingListener(new LoadingListener());
-        }
-        getSupportLoaderManager().initLoader(ImageMnager.LOADER_ALL, null, imageMnager);
-
+    protected void incident() {
     }
+
 
     @Override
     public void onClick(View view) {
-        if (fileLv == null) {
-            fileLv = new ListPopupWindow(this);
-            popupAdapter = new PopupAdapter();
-            fileLv.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            fileLv.setAdapter(popupAdapter);
-            int width = footerRl.getWidth();
-            fileLv.setContentWidth(width);
-            fileLv.setWidth(width);
-            fileLv.setHeight((int) (width * 0.8));
-            fileLv.setAnchorView(footerRl);
-            fileLv.setModal(true);
-            fileLv.setOnItemClickListener(this);
-            popupAdapter.setData(imageFils);
-        }
-        boolean isShow = fileLv.isShowing();
-        if (isShow) {
-            fileLv.dismiss();
-        } else {
-            fileLv.show();
-        }
     }
 
     //照片选择监听
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (i == 0) {
-            //拍照
-            return;
+        if (adapterView.getId() == R.id.image_gv) {
+            onImagesClick(i);
+        } else {
+            onFileClick(i);
         }
+
+    }
+
+    //选择文件夹
+    private void onFileClick(int i) {
         ImageFile file = (ImageFile) popupAdapter.getItem(i);
         popupAdapter.setIndex(i);
         fileBtn.setText(file.getFileName());
         iamgesAdapter.setData(file.imags);
-        if (fileLv != null) {
-            fileLv.dismiss();
+        fileLv.dismiss();
+    }
+
+    //选择照片
+    private void onImagesClick(int i) {
+        if (i == 0) {
+            //拍照
+            return;
+        }
+        iamgesAdapter.getItem(i);
+        //可以多选择
+        if (config.isMore()) {
+            iamgesAdapter.addORremovePath(i, config.getImageSelectMaximum());
+            return;
+        }
+        //单选+裁剪
+        if (!config.isMore() && config.isCrop()) {
+            return;
+        }
+        //单选
+        if (!config.isMore()) {
+            return;
         }
     }
 
-    private List<ImageFile> imageFils;
-
-    //读取数据库照片监听
-    class LoadingListener implements ImageMnager.OnLoadingListener {
-
-        @Override
-        public void onLoadingListener(List<ImageFile> fils) {
-            findViewById(R.id.progress_rl).setVisibility(View.GONE);
-            if (fils == null) {
-                Toast.makeText(ImageSelectActivity.this, "获取图片失败", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            ImageFile file = fils.get(0);
-            if (fils.size() == 1) {
-                //不显示选择文件夹
-                footerRl.setVisibility(View.GONE);
-            }
-            imageFils = fils;
-            iamgesAdapter.setData(file.imags);
+    protected File tempFile;
+    //拍照
+    protected static final int REQUEST_CAMERA = 100;
+    //裁剪
+    protected static final int REQUEST_CROP = 101;
+    //  选择相机
+    protected void showCameraAction() {
+        // 跳转到系统照相机
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+            // 设置系统相机拍照后的输出路径
+            // 创建临时文件
+            tempFile = FileUtile.createTmpFile(this, config.getFilePath());
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+            startActivityForResult(cameraIntent, REQUEST_CAMERA);
+        } else {
+            Toast.makeText(this, "No system camera found", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    protected String cropImagePath;
+
+    //裁剪
+    protected void crop(String imagePath) {
+        File file;
+        if (FileUtile.existSDCard()) {
+            file = new File(Environment.getExternalStorageDirectory() + config.getFilePath(),
+                    FileUtile.getImageName());
+        } else {
+            file = new File(getCacheDir(), FileUtile.getImageName());
+        }
+        cropImagePath = file.getAbsolutePath();
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(Uri.fromFile(new File(imagePath)), "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", config.getAspectX());
+        intent.putExtra("aspectY", config.getAspectY());
+        intent.putExtra("outputX", config.getOutputX());
+        intent.putExtra("outputY", config.getOutputY());
+        intent.putExtra("return-data", false);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+        startActivityForResult(intent, REQUEST_CROP);
     }
 }
