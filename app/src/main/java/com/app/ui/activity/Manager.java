@@ -17,7 +17,7 @@ import com.guomin.app.seletcimage.R;
 public class Manager {
     //更多选择
     public void getMoreConfig(Context context) {
-        Configs build = ConfigBuile.getBuile()
+        Configs build = ConfigBuile.getNewBuile()
                 .setLoading(new ImageShowType())
                 .setShowCamera(true)
                 .setMore()
@@ -33,7 +33,7 @@ public class Manager {
 
     //单选
     public void getSingleConfig(Context context) {
-        Configs build = ConfigBuile.getBuile()
+        Configs build = ConfigBuile.getNewBuile()
                 .setLoading(new ImageShowType())
                 .setShowCamera(true)
                 .setSingle()
@@ -47,7 +47,7 @@ public class Manager {
 
     //单选只拍照
     public void getSinglePhotoConfig(Context context) {
-        Configs build = ConfigBuile.getBuile()
+        Configs build = ConfigBuile.getNewBuile()
                 .setLoading(new ImageShowType())
                 .setSingle()
                 .setOnlyPhotograph(true)
@@ -61,7 +61,7 @@ public class Manager {
 
     //单选裁剪
     public void getSingleCropConfig(Context context) {
-        Configs build = ConfigBuile.getBuile()
+        Configs build = ConfigBuile.getNewBuile()
                 .setLoading(new ImageShowType())
                 .setShowCamera(true)
                 .setSingle()
