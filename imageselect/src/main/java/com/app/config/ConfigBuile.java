@@ -8,7 +8,7 @@ import android.widget.ImageView;
  */
 public class ConfigBuile {
     private static ConfigBuile build;
-
+    private String filePath = "/temp/pictures";
     //多选 or 单选
     private boolean isMore;
     //可开启相机
@@ -35,6 +35,15 @@ public class ConfigBuile {
 
     public ConfigBuile setMore(boolean more) {
         isMore = more;
+        return getBuile();
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public ConfigBuile setFilePath(String filePath) {
+        this.filePath = filePath;
         return getBuile();
     }
 

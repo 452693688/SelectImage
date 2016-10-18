@@ -1,10 +1,7 @@
 package com.app.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
@@ -13,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.adapter.ImagesAdapter;
 import com.app.adapter.PopupAdapter;
@@ -22,7 +18,7 @@ import com.app.bean.ImageFile;
 import com.app.config.Configs;
 import com.app.imageselect.R;
 import com.app.utils.DateUtile;
-import com.app.utils.FileUtile;
+import com.app.utils.ImageUtile;
 
 import java.io.File;
 
@@ -38,7 +34,10 @@ public class ImageSelectActivity extends AppCompatActivity implements
     protected ListPopupWindow fileLv;
     protected View footerRl;
     protected Button fileBtn;
-
+    //拍照图片路径
+    protected File photoFile;
+    //裁剪完成之后图片路径
+    protected String cropImagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,7 @@ public class ImageSelectActivity extends AppCompatActivity implements
 
     private void init() {
         GridView iamgeGv = (GridView) findViewById(R.id.image_gv);
-        iamgesAdapter = new ImagesAdapter(this);
+        iamgesAdapter = new ImagesAdapter(this, config.isMore());
         iamgesAdapter.setItemSize(this);
         iamgeGv.setAdapter(iamgesAdapter);
         timeTv = (TextView) findViewById(R.id.time_tv);
@@ -124,67 +123,32 @@ public class ImageSelectActivity extends AppCompatActivity implements
 
     //选择照片
     private void onImagesClick(int i) {
-        if (i == 0) {
+        if (i == 0 && config.isShowCamera()) {
             //拍照
+            photoFile = ImageUtile.showCameraAction(this, config);
             return;
         }
-        iamgesAdapter.getItem(i);
         //可以多选择
         if (config.isMore()) {
             iamgesAdapter.addORremovePath(i, config.getImageSelectMaximum());
             return;
         }
+        ImageBean image = (ImageBean) iamgesAdapter.getItem(i);
         //单选+裁剪
         if (!config.isMore() && config.isCrop()) {
+            File file = ImageUtile.crop(this, config, image.path);
+            cropImagePath = file == null ? "" : file.getAbsolutePath();
             return;
         }
         //单选
         if (!config.isMore()) {
+            setResult(image.path);
             return;
         }
     }
 
-    protected File tempFile;
-    //拍照
-    protected static final int REQUEST_CAMERA = 100;
-    //裁剪
-    protected static final int REQUEST_CROP = 101;
-    //  选择相机
-    protected void showCameraAction() {
-        // 跳转到系统照相机
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-            // 设置系统相机拍照后的输出路径
-            // 创建临时文件
-            tempFile = FileUtile.createTmpFile(this, config.getFilePath());
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
-            startActivityForResult(cameraIntent, REQUEST_CAMERA);
-        } else {
-            Toast.makeText(this, "No system camera found", Toast.LENGTH_SHORT).show();
-        }
+    protected void setResult(String path) {
     }
 
-    protected String cropImagePath;
 
-    //裁剪
-    protected void crop(String imagePath) {
-        File file;
-        if (FileUtile.existSDCard()) {
-            file = new File(Environment.getExternalStorageDirectory() + config.getFilePath(),
-                    FileUtile.getImageName());
-        } else {
-            file = new File(getCacheDir(), FileUtile.getImageName());
-        }
-        cropImagePath = file.getAbsolutePath();
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(Uri.fromFile(new File(imagePath)), "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", config.getAspectX());
-        intent.putExtra("aspectY", config.getAspectY());
-        intent.putExtra("outputX", config.getOutputX());
-        intent.putExtra("outputY", config.getOutputY());
-        intent.putExtra("return-data", false);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-        startActivityForResult(intent, REQUEST_CROP);
-    }
 }

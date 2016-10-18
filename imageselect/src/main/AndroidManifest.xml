@@ -7,11 +7,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
         <activity
-            android:name="com.app.activity.ImageSelectActivity"
+            android:name="com.app.activity.IncidentActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.app.activity.IncidentActivity">
-        </activity>
+
     </application>
 
 </manifest>

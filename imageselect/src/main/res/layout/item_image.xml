@@ -2,7 +2,8 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#888888">
 
 
     <ImageView
@@ -20,6 +21,7 @@
         android:layout_gravity="center"
         android:drawablePadding="4dp"
         android:drawableTop="@mipmap/imageselector_select_photo"
+        android:gravity="center"
         android:text="拍照"
         android:textSize="14sp"
         />

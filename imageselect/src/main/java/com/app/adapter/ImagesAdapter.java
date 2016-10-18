@@ -30,9 +30,11 @@ public class ImagesAdapter extends BaseAdapter {
     private AbsListView.LayoutParams itemLayoutParams;
     private ArrayList<String> paths = new ArrayList<>();
     private Context contex;
+    private boolean isMore;
 
-    public ImagesAdapter(Context contex) {
+    public ImagesAdapter(Context contex, boolean isMore) {
         this.contex = contex;
+        this.isMore = isMore;
     }
 
     //设置照片的大小
@@ -70,7 +72,7 @@ public class ImagesAdapter extends BaseAdapter {
         if (isExist) {
             paths.remove(path);
         }
-        if (!isExist && index == max) {
+        if (!isExist && paths.size() >= max) {
             Toast.makeText(contex, "已达选择上限", Toast.LENGTH_LONG).show();
             return;
         }
@@ -116,8 +118,13 @@ public class ImagesAdapter extends BaseAdapter {
             ConfigBuile.getBuile().setImageLoading(viewGroup.getContext(),
                     bean.path, holdeView.imageIv);
         }
-        int isSelect = paths.contains(bean.path) ? View.VISIBLE : View.GONE;
-        holdeView.selectIv.setVisibility(isSelect);
+        if (!isMore) {
+            holdeView.selectIv.setVisibility(View.GONE);
+        } else {
+            int imageId = paths.contains(bean.path) ? R.mipmap.imageselector_select_checked :
+                    R.mipmap.imageselector_select_uncheck;
+            holdeView.selectIv.setImageResource(imageId);
+        }
         return view;
     }
 

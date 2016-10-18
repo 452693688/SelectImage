@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Administrator on 2016/10/17.
  */
 public class Configs implements Serializable {
-    public static final int TASK_COMPLETE=200;
+    public static final int TASK_COMPLETE = 200;
     //可开启相机
     private boolean showCamera;
     //多选
@@ -39,6 +39,7 @@ public class Configs implements Serializable {
     public Configs(ConfigBuile build) {
         showCamera = build.isShowCamera();
         isMore = build.isMore();
+        filePath = build.getFilePath();
         ConfigBuile.ConfigMoreBuile moreBuile = build.getMoreBuile();
         ConfigBuile.ConfigSingleBuile singBuile = build.getSingBuile();
         setMore(moreBuile);

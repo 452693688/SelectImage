@@ -17,7 +17,24 @@
         android:id="@+id/image_btn2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:text="获取图片2"
+        android:text="单张图片"
+        />
+    <Button
+        android:id="@+id/image_btn3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="单张图片+裁剪"
+        />
+    <Button
+        android:id="@+id/image_btn4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="只拍照"
+        />
+    <Button
+        android:id="@+id/image_btn5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="多选"
         />
 </LinearLayout>

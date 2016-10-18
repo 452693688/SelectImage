@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.app.activity.ImageSelectActivity;
+import com.app.activity.IncidentActivity;
 import com.app.config.ConfigBuile;
 import com.app.config.Configs;
 import com.bumptech.glide.Glide;
@@ -24,7 +24,7 @@ public class Manager {
                 .setImageSelectMaximum(9)
                 .builds();
 
-        Intent it = new Intent(context, ImageSelectActivity.class);
+        Intent it = new Intent(context, IncidentActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("config", build);
         it.putExtras(bundle);
@@ -38,7 +38,7 @@ public class Manager {
                 .setShowCamera(true)
                 .setSingle()
                 .build();
-        Intent it = new Intent(context, ImageSelectActivity.class);
+        Intent it = new Intent(context, IncidentActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("config", build);
         it.putExtras(bundle);
@@ -52,7 +52,7 @@ public class Manager {
                 .setSingle()
                 .setOnlyPhotograph(true)
                 .build();
-        Intent it = new Intent(context, ImageSelectActivity.class);
+        Intent it = new Intent(context, IncidentActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("config", build);
         it.putExtras(bundle);
@@ -69,7 +69,7 @@ public class Manager {
                 .setAspect(60, 60)
                 .setOutput(60, 60)
                 .build();
-        Intent it = new Intent(context, ImageSelectActivity.class);
+        Intent it = new Intent(context, IncidentActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("config", build);
         it.putExtras(bundle);
