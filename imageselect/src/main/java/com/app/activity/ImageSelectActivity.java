@@ -59,7 +59,6 @@ public class ImageSelectActivity extends AppCompatActivity {
     }
 
 
-
     protected void init() {
     }
 
@@ -83,6 +82,10 @@ public class ImageSelectActivity extends AppCompatActivity {
         //可以多选择
         if (config.isMore) {
             iamgesAdapter.addORremovePath(i, config.imageSelectMaximum);
+            paths = iamgesAdapter.getPaths();
+            String hint = config.barOptionHint == null ? "" : config.barOptionHint;
+            hint += " ( " + paths.size() + "/" + config.imageSelectMaximum + " ) ";
+            actionBar.setOptionText(hint);
             return;
         }
         ImageBean image = (ImageBean) iamgesAdapter.getItem(i);
@@ -104,11 +107,11 @@ public class ImageSelectActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode != ImageUtile.REQUEST_CAMERA) {
+        if (requestCode == ImageUtile.REQUEST_CAMERA) {
             photoResult(requestCode, resultCode, data);
             return;
         }
-        if (requestCode != ImageUtile.REQUEST_CROP) {
+        if (requestCode == ImageUtile.REQUEST_CROP) {
             cropResult(requestCode, resultCode, data);
             return;
         }
@@ -155,7 +158,7 @@ public class ImageSelectActivity extends AppCompatActivity {
 
     protected void setResult() {
         Intent intent = new Intent();
-        intent.putStringArrayListExtra("data", paths);
+        intent.putStringArrayListExtra(Configs.TASK_COMPLETE_RESULT, paths);
         setResult(Configs.TASK_COMPLETE, intent);
         finish();
     }

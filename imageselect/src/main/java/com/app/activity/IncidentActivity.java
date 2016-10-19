@@ -48,6 +48,7 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
         actionBar = (ActionBar) findViewById(R.id.actionbar);
         actionBar.setConfigs(this, config);
         actionBar.barOptionTv.setOnClickListener(this);
+        actionBar.barBackTv.setOnClickListener(this);
         //
         iamgeGv.setOnScrollListener(new SlideListener());
         iamgeGv.setOnItemClickListener(this);
@@ -78,6 +79,13 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
         int id = view.getId();
         if (id == R.id.bra_option) {
             //更多发送
+            setResult();
+            return;
+        }
+        if (id == R.id.bra_back) {
+            //返回
+            finish();
+            return;
         }
         if (id == R.id.file_name_tv) {
             //呼出照片文件夹选择

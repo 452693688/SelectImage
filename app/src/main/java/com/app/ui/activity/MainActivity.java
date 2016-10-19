@@ -1,10 +1,15 @@
 package com.app.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
+import com.app.config.Configs;
 import com.guomin.app.seletcimage.R;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -50,5 +55,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Configs.TASK_COMPLETE) {
+            ArrayList<String> pathList = data.getStringArrayListExtra(Configs.TASK_COMPLETE_RESULT);
+            if (pathList == null) {
+                return;
+            }
+            for (String path : pathList) {
+                Log.e("ImagePathList", path);
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.app.config;
 
+import android.app.Activity;
+
 /**
  * Created by Administrator on 2016/10/19.
  */
@@ -18,8 +20,8 @@ public class ConfigBuileMore {
         return this;
     }
 
-    public Configs builds() {
-        return new Configs(ConfigBuile.build);
+    public void build(Activity activity) {
+        new Configs(ConfigBuile.build, activity);
     }
 
 }

@@ -19,7 +19,7 @@ import java.util.Locale;
 public class FileUtile {
     private final static String PATTERN = "yyyyMMddHHmmss";
 
-
+    //拍照获取 File
     public static File createTmpFile(Context context, String filePath) {
 
         String timeStamp = new SimpleDateFormat(PATTERN, Locale.CHINA).format(new Date());
@@ -32,13 +32,14 @@ public class FileUtile {
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            return new File(dir, timeStamp + ".jpg");
+            return new File(dir, timeStamp + ".png");
         } else {
             File cacheDir = context.getCacheDir();
-            return new File(cacheDir, timeStamp + ".jpg");
+            return new File(cacheDir, timeStamp + ".png");
         }
 
     }
+
     //
     public static int getStatusBarHeight() {
         Class<?> c;
@@ -72,7 +73,7 @@ public class FileUtile {
     public static boolean existSDCard() {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
-
+    //裁剪获取 File
     public static String getImageName() {
         String PATTERN = "yyyyMMddHHmmss";
         return new SimpleDateFormat(PATTERN, Locale.CHINA).format(new Date()) + ".png";

@@ -24,7 +24,7 @@ import com.app.imageselect.R;
 public class ActionBar extends RelativeLayout {
 
     private TextView barTitleTv;
-    private TextView barBackTv;
+    public TextView barBackTv;
     public TextView barOptionTv;
 
     public ActionBar(Context context) {

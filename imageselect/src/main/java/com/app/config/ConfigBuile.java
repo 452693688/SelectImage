@@ -1,5 +1,6 @@
 package com.app.config;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.ImageView;
 
@@ -73,8 +74,8 @@ public class ConfigBuile {
         return showCamera;
     }
 
-    public Configs build() {
-        return new Configs(build);
+    public Configs build(Activity activity) {
+        return new Configs(build,activity);
     }
 
     //设置选择更多

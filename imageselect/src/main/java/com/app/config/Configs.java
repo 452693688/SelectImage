@@ -1,5 +1,11 @@
 package com.app.config;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.app.activity.IncidentActivity;
+
 import java.io.Serializable;
 
 /**
@@ -7,6 +13,7 @@ import java.io.Serializable;
  */
 public class Configs implements Serializable {
     public static final int TASK_COMPLETE = 200;
+    public static final String TASK_COMPLETE_RESULT = "result";
     //导航条
     public int statusBarColor;
     public int actionBarColor;
@@ -56,7 +63,7 @@ public class Configs implements Serializable {
         this.showCamera = showCamera;
     }
 
-    public Configs(ConfigBuile build) {
+    public Configs(ConfigBuile build, Activity activity) {
         showCamera = build.isShowCamera();
         isMore = build.isMore();
         filePath = build.getFilePath();
@@ -66,6 +73,12 @@ public class Configs implements Serializable {
         setBuileMore(moreBuile);
         setBuileSingle(singBuile);
         setBuileBar(buileBar);
+        //
+        Intent it = new Intent(activity, IncidentActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("config", this);
+        it.putExtras(bundle);
+        activity.startActivityForResult(it, TASK_COMPLETE);
     }
 
     private void setBuileMore(ConfigBuileMore moreBuile) {

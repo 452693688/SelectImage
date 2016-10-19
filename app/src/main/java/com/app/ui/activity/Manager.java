@@ -1,13 +1,10 @@
 package com.app.ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.app.activity.IncidentActivity;
 import com.app.config.ConfigBuile;
-import com.app.config.Configs;
 import com.bumptech.glide.Glide;
 import com.guomin.app.seletcimage.R;
 
@@ -16,24 +13,20 @@ import com.guomin.app.seletcimage.R;
  */
 public class Manager {
     //更多选择
-    public void getMoreConfig(Context context) {
-        Configs build = ConfigBuile.getNewBuile()
+    public void getMoreConfig(Activity context) {
+      ConfigBuile.getNewBuile()
                 .setLoading(new ImageShowType())
                 .setShowCamera(true)
                 .setBuileMore()
                 .setImageSelectMaximum(9)
-                .builds();
+                .build(context);
 
-        Intent it = new Intent(context, IncidentActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("config", build);
-        it.putExtras(bundle);
-        context.startActivity(it);
+
     }
 
     //单选
-    public void getSingleConfig(Context context) {
-        Configs build = ConfigBuile.getNewBuile()
+    public void getSingleConfig(Activity activity  ) {
+        ConfigBuile.getNewBuile()
                 .setBuileBar()
                 .setActionBarColor(0xfff1f1f1)
                 .setStatusBarColor(0xffffffff)
@@ -48,43 +41,31 @@ public class Manager {
                 .setLoading(new ImageShowType())
                 .setShowCamera(true)
                 .setBuileSingle()
-                .build();
-        Intent it = new Intent(context, IncidentActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("config", build);
-        it.putExtras(bundle);
-        context.startActivity(it);
+                .build(activity);
+
     }
 
     //单选只拍照
-    public void getSinglePhotoConfig(Context context) {
-        Configs build = ConfigBuile.getNewBuile()
+    public void getSinglePhotoConfig(Activity activity) {
+        ConfigBuile.getNewBuile()
                 .setLoading(new ImageShowType())
                 .setBuileSingle()
                 .setOnlyPhotograph(true)
-                .build();
-        Intent it = new Intent(context, IncidentActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("config", build);
-        it.putExtras(bundle);
-        context.startActivity(it);
+                .build(activity);
+
     }
 
     //单选裁剪
-    public void getSingleCropConfig(Context context) {
-        Configs build = ConfigBuile.getNewBuile()
+    public void getSingleCropConfig(Activity context) {
+         ConfigBuile.getNewBuile()
                 .setLoading(new ImageShowType())
                 .setShowCamera(true)
                 .setBuileSingle()
                 .setCrop(true)
                 .setAspect(60, 60)
                 .setOutput(60, 60)
-                .build();
-        Intent it = new Intent(context, IncidentActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("config", build);
-        it.putExtras(bundle);
-        context.startActivity(it);
+                 .build(context);
+
     }
 
     class ImageShowType implements ConfigBuile.ImageLoader {
