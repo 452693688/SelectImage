@@ -46,7 +46,6 @@ public class ImageUtile {
         } else {
             file = new File(activity.getCacheDir(), FileUtile.getImageName());
         }
-        String cropImagePath = file.getAbsolutePath();
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(Uri.fromFile(new File(imagePath)), "image/*");
         intent.putExtra("crop", "true");
