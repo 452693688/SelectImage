@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.app.adapter.ImagesAdapter;
@@ -16,6 +15,7 @@ import com.app.bean.ImageFile;
 import com.app.config.Configs;
 import com.app.imageselect.R;
 import com.app.utils.ImageUtile;
+import com.app.view.ActionBar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,7 +30,8 @@ public class ImageSelectActivity extends AppCompatActivity {
     protected PopupAdapter popupAdapter;
     protected ListPopupWindow fileLv;
     protected View footerRl;
-    protected Button fileBtn;
+    protected TextView fileNameTv;
+    protected ActionBar actionBar;
     //拍照图片路径
     protected File photoFile;
     //裁剪完成之后图片路径
@@ -53,8 +54,11 @@ public class ImageSelectActivity extends AppCompatActivity {
         if (config == null) {
             return;
         }
+
         init();
     }
+
+
 
     protected void init() {
     }
@@ -64,32 +68,32 @@ public class ImageSelectActivity extends AppCompatActivity {
     protected void onFileClick(int i) {
         ImageFile file = (ImageFile) popupAdapter.getItem(i);
         popupAdapter.setIndex(i);
-        fileBtn.setText(file.getFileName());
+        fileNameTv.setText(file.getFileName());
         iamgesAdapter.setData(file.imags);
         fileLv.dismiss();
     }
 
     //选择照片
     protected void onImagesClick(int i) {
-        if (i == 0 && config.isShowCamera()) {
+        if (i == 0 && config.showCamera) {
             //拍照
             photoFile = ImageUtile.showCameraAction(this, config);
             return;
         }
         //可以多选择
-        if (config.isMore()) {
-            iamgesAdapter.addORremovePath(i, config.getImageSelectMaximum());
+        if (config.isMore) {
+            iamgesAdapter.addORremovePath(i, config.imageSelectMaximum);
             return;
         }
         ImageBean image = (ImageBean) iamgesAdapter.getItem(i);
         //单选+裁剪
-        if (!config.isMore() && config.isCrop()) {
+        if (!config.isMore && config.isCrop) {
             File file = ImageUtile.crop(this, config, image.path);
             cropImagePath = file == null ? "" : file.getAbsolutePath();
             return;
         }
         //单选
-        if (!config.isMore()) {
+        if (!config.isMore) {
             paths.add(image.path);
             setResult();
             return;
@@ -116,13 +120,13 @@ public class ImageSelectActivity extends AppCompatActivity {
     private void photoResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             //裁剪
-            if (config.isCrop()) {
+            if (config.isCrop) {
                 File file = ImageUtile.crop(this, config, photoFile.getPath());
                 cropImagePath = file == null ? "" : file.getAbsolutePath();
                 return;
             }
             //选择更多
-            if (config.isMore()) {
+            if (config.isMore) {
                 setFile(photoFile);
                 return;
             }

@@ -6,7 +6,6 @@ import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +18,7 @@ import com.app.imageselect.R;
 import com.app.utils.DateUtile;
 import com.app.utils.ImageMnager;
 import com.app.utils.ImageUtile;
+import com.app.view.ActionBar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,22 +28,26 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
     private ImageMnager imageMnager;
     private LoadingListener loadingListener = new LoadingListener();
 
+
     protected void init() {
-        boolean isOnlyPhotograph = config.isOnlyPhotograph();
-        if (isOnlyPhotograph && !config.isMore()) {
+        boolean isOnlyPhotograph = config.onlyPhotograph;
+        if (isOnlyPhotograph && !config.isMore) {
             //只拍照
             photoFile = ImageUtile.showCameraAction(this, config);
             return;
         }
         //
         GridView iamgeGv = (GridView) findViewById(R.id.image_gv);
-        iamgesAdapter = new ImagesAdapter(this, config.isMore());
+        iamgesAdapter = new ImagesAdapter(this, config.isMore);
         iamgesAdapter.setItemSize(this);
         iamgeGv.setAdapter(iamgesAdapter);
         timeTv = (TextView) findViewById(R.id.time_tv);
-        fileBtn = (Button) findViewById(R.id.file_btn);
-        fileBtn.setOnClickListener(this);
+        fileNameTv = (TextView) findViewById(R.id.file_name_tv);
+        fileNameTv.setOnClickListener(this);
         footerRl = findViewById(R.id.footer_rl);
+        actionBar = (ActionBar) findViewById(R.id.actionbar);
+        actionBar.setConfigs(this, config);
+        actionBar.barOptionTv.setOnClickListener(this);
         //
         iamgeGv.setOnScrollListener(new SlideListener());
         iamgeGv.setOnItemClickListener(this);
@@ -52,7 +56,7 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
 
     private void doRequest() {
         if (imageMnager == null) {
-            imageMnager = new ImageMnager(this, config.isShowCamera());
+            imageMnager = new ImageMnager(this, config.showCamera);
             imageMnager.setOnLoadingListener(loadingListener);
         }
         getSupportLoaderManager().initLoader(ImageMnager.LOADER_ALL, null, imageMnager);
@@ -71,7 +75,18 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
 
     @Override
     public void onClick(View view) {
-        //呼出照片文件夹选择
+        int id = view.getId();
+        if (id == R.id.bra_option) {
+            //更多发送
+        }
+        if (id == R.id.file_name_tv) {
+            //呼出照片文件夹选择
+            popupWindow();
+        }
+
+    }
+
+    private void popupWindow() {
         if (fileLv == null) {
             fileLv = new ListPopupWindow(this);
             popupAdapter = new PopupAdapter();

@@ -8,6 +8,7 @@
         android:supportsRtl="true">
         <activity
             android:name="com.app.activity.IncidentActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait">
         </activity>
 

@@ -7,23 +7,43 @@ import java.io.Serializable;
  */
 public class Configs implements Serializable {
     public static final int TASK_COMPLETE = 200;
+    //导航条
+    public int statusBarColor;
+    public int actionBarColor;
+    public int barBackColor;
+    public int barTitleColor;
+    public int barOptionColor;
+    // px
+    public int actionBarHeight;
+    public int barOptionHeight;
+    //
+    public int barBackSize;
+    public int barTitleSize;
+    public int barOptionSize;
+    //
+    public int barBackIconId;
+    public int barOptionBackdropId;
+    //
+    public String barBackHint;
+    public String barTitleHint;
+    public String barOptionHint;
     //可开启相机
-    private boolean showCamera;
+    public boolean showCamera;
     //多选
-    private boolean isMore;
+    public boolean isMore;
     //最多可多照片的数量
-    private int imageSelectMaximum;
+    public int imageSelectMaximum;
     //照片存储路径
-    private String filePath;
+    public String filePath;
     //裁剪
-    private boolean isCrop;
-    private int aspectX;
-    private int aspectY;
-    private int outputX;
-    private int outputY;
+    public boolean isCrop;
+    public int aspectX;
+    public int aspectY;
+    public int outputX;
+    public int outputY;
 
     //只拍照
-    private boolean onlyPhotograph;
+    public boolean onlyPhotograph;
 
     public Configs(int imageSelectMaximum, boolean isMore, boolean isCrop, int aspectX, int aspectY, int outputX, int outputY, boolean showCamera) {
         this.imageSelectMaximum = imageSelectMaximum;
@@ -40,20 +60,22 @@ public class Configs implements Serializable {
         showCamera = build.isShowCamera();
         isMore = build.isMore();
         filePath = build.getFilePath();
-        ConfigBuile.ConfigMoreBuile moreBuile = build.getMoreBuile();
-        ConfigBuile.ConfigSingleBuile singBuile = build.getSingBuile();
-        setMore(moreBuile);
-        setSingle(singBuile);
+        ConfigBuileMore moreBuile = build.getBuileMore();
+        ConfigBuileSingle singBuile = build.getBuileSingle();
+        ConfigBuileBar buileBar = build.getBuileBar();
+        setBuileMore(moreBuile);
+        setBuileSingle(singBuile);
+        setBuileBar(buileBar);
     }
 
-    private void setMore(ConfigBuile.ConfigMoreBuile moreBuile) {
+    private void setBuileMore(ConfigBuileMore moreBuile) {
         if (moreBuile == null) {
             return;
         }
         imageSelectMaximum = moreBuile.getImageSelectMaximum();
     }
 
-    private void setSingle(ConfigBuile.ConfigSingleBuile singBuile) {
+    private void setBuileSingle(ConfigBuileSingle singBuile) {
         if (singBuile == null) {
             return;
         }
@@ -65,83 +87,29 @@ public class Configs implements Serializable {
         onlyPhotograph = singBuile.isOnlyPhotograph();
     }
 
-    public int getImageSelectMaximum() {
-        return imageSelectMaximum;
+    private void setBuileBar(ConfigBuileBar buileBar) {
+        if (buileBar == null) {
+            return;
+        }
+        statusBarColor = buileBar.getStatusBarColor();
+        actionBarColor = buileBar.getActionBarColor();
+        barBackColor = buileBar.getBarBackColor();
+        barTitleColor = buileBar.getBarTitleColor();
+        barOptionColor = buileBar.getBarOptionColor();
+        //
+        actionBarHeight = buileBar.getActionBarHeight();
+        barOptionHeight = buileBar.getBarOptionHeight();
+        //
+        barBackSize = buileBar.getBarBackSize();
+        barTitleSize = buileBar.getBarTitleSize();
+        barOptionSize = buileBar.getBarOptionSize();
+        //
+        barBackIconId = buileBar.getBarBackIconId();
+        barOptionBackdropId = buileBar.getBarOptionBackdropId();
+        //
+        barBackHint = buileBar.getBarBackHint();
+        barTitleHint = buileBar.getBarTitleHint();
+        barOptionHint = buileBar.getBarOptionHint();
     }
 
-    public void setImageSelectMaximum(int imageSelectMaximum) {
-        this.imageSelectMaximum = imageSelectMaximum;
-    }
-
-    public boolean isMore() {
-        return isMore;
-    }
-
-    public void setMore(boolean more) {
-        isMore = more;
-    }
-
-    public boolean isCrop() {
-        return isCrop;
-    }
-
-    public void setCrop(boolean crop) {
-        isCrop = crop;
-    }
-
-    public int getAspectX() {
-        return aspectX;
-    }
-
-    public void setAspectX(int aspectX) {
-        this.aspectX = aspectX;
-    }
-
-    public int getAspectY() {
-        return aspectY;
-    }
-
-    public void setAspectY(int aspectY) {
-        this.aspectY = aspectY;
-    }
-
-    public int getOutputX() {
-        return outputX;
-    }
-
-    public void setOutputX(int outputX) {
-        this.outputX = outputX;
-    }
-
-    public int getOutputY() {
-        return outputY;
-    }
-
-    public void setOutputY(int outputY) {
-        this.outputY = outputY;
-    }
-
-    public boolean isShowCamera() {
-        return showCamera;
-    }
-
-    public void setShowCamera(boolean showCamera) {
-        this.showCamera = showCamera;
-    }
-
-    public boolean isOnlyPhotograph() {
-        return onlyPhotograph;
-    }
-
-    public void setOnlyPhotograph(boolean onlyPhotograph) {
-        this.onlyPhotograph = onlyPhotograph;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
 }

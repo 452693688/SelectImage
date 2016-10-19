@@ -28,7 +28,7 @@ public class ImageUtile {
         if (cameraIntent.resolveActivity(activity.getPackageManager()) != null) {
             // 设置系统相机拍照后的输出路径
             // 创建临时文件
-            file = FileUtile.createTmpFile(activity, config.getFilePath());
+            file = FileUtile.createTmpFile(activity, config.filePath);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
             activity.startActivityForResult(cameraIntent, REQUEST_CAMERA);
         } else {
@@ -41,7 +41,7 @@ public class ImageUtile {
     public static File crop(Activity activity, Configs config, String imagePath) {
         File file;
         if (FileUtile.existSDCard()) {
-            file = new File(Environment.getExternalStorageDirectory() + config.getFilePath(),
+            file = new File(Environment.getExternalStorageDirectory() + config.filePath,
                     FileUtile.getImageName());
         } else {
             file = new File(activity.getCacheDir(), FileUtile.getImageName());
@@ -50,10 +50,10 @@ public class ImageUtile {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(Uri.fromFile(new File(imagePath)), "image/*");
         intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", config.getAspectX());
-        intent.putExtra("aspectY", config.getAspectY());
-        intent.putExtra("outputX", config.getOutputX());
-        intent.putExtra("outputY", config.getOutputY());
+        intent.putExtra("aspectX", config.aspectX);
+        intent.putExtra("aspectY", config.aspectY);
+        intent.putExtra("outputX", config.outputX);
+        intent.putExtra("outputY", config.outputY);
         intent.putExtra("return-data", false);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         activity.startActivityForResult(intent, REQUEST_CROP);

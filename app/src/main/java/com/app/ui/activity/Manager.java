@@ -20,7 +20,7 @@ public class Manager {
         Configs build = ConfigBuile.getNewBuile()
                 .setLoading(new ImageShowType())
                 .setShowCamera(true)
-                .setMore()
+                .setBuileMore()
                 .setImageSelectMaximum(9)
                 .builds();
 
@@ -34,9 +34,20 @@ public class Manager {
     //单选
     public void getSingleConfig(Context context) {
         Configs build = ConfigBuile.getNewBuile()
+                .setBuileBar()
+                .setActionBarColor(0xfff1f1f1)
+                .setStatusBarColor(0xffffffff)
+                .setBarOptionHeight(80)
+                .setActionBarHeight(450)
+                .setBarBackHint("返回")
+                .setBarTitleHint("选择图片")
+                .setBarOptionHint("完成")
+                .setBarBackIconId(R.mipmap.imageselector_back)
+                .setBarOptionBackdropId(R.drawable.green_4_bg)
+                .complete()
                 .setLoading(new ImageShowType())
                 .setShowCamera(true)
-                .setSingle()
+                .setBuileSingle()
                 .build();
         Intent it = new Intent(context, IncidentActivity.class);
         Bundle bundle = new Bundle();
@@ -49,7 +60,7 @@ public class Manager {
     public void getSinglePhotoConfig(Context context) {
         Configs build = ConfigBuile.getNewBuile()
                 .setLoading(new ImageShowType())
-                .setSingle()
+                .setBuileSingle()
                 .setOnlyPhotograph(true)
                 .build();
         Intent it = new Intent(context, IncidentActivity.class);
@@ -64,7 +75,7 @@ public class Manager {
         Configs build = ConfigBuile.getNewBuile()
                 .setLoading(new ImageShowType())
                 .setShowCamera(true)
-                .setSingle()
+                .setBuileSingle()
                 .setCrop(true)
                 .setAspect(60, 60)
                 .setOutput(60, 60)
