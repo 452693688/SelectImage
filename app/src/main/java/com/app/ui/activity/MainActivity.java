@@ -24,8 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.image_btn5).setOnClickListener(this);
     }
 
-    private PhotoManager photo;
-    Manager manager = new Manager();
+    ImageSelectManager manager = new ImageSelectManager();
 
     @Override
     public void onClick(View view) {
@@ -45,13 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.image_btn5:
                 //多选
                 manager.getMoreConfig(this);
-                break;
-
-            case R.id.image_btn:
-                if (photo == null) {
-                    photo = new PhotoManager(this);
-                }
-                photo.corpSquare();
                 break;
         }
 

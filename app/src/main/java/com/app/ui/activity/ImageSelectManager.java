@@ -12,7 +12,7 @@ import com.guomin.app.seletcimage.R;
 /**
  * Created by Administrator on 2016/10/17.
  */
-public class Manager {
+public class ImageSelectManager {
     //更多选择
     public void getMoreConfig(Activity context) {
       ConfigBuile.getNewBuile()
