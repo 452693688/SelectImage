@@ -13,7 +13,7 @@
         android:layout_height="86dp"
         android:layout_margin="10dp"
         android:contentDescription="@null"
-        android:src="@mipmap/imageselector_photo"/>
+        android:src="@mipmap/image_select_default"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -159,7 +159,7 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
         public void onLoadingListener(List<ImageFile> fils) {
             findViewById(R.id.progress_rl).setVisibility(View.GONE);
             if (fils == null) {
-                Toast.makeText(IncidentActivity.this, "获取图片失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(IncidentActivity.this, R.string.image_loading_error, Toast.LENGTH_SHORT).show();
                 return;
             }
             ImageFile file = fils.get(0);

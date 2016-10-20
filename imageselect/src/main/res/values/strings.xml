@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">ImageSelect</string>
+    <string name="camera_hint">拍照</string>
+    <string name="image_all">全部图片</string>
+    <string name="image_loading_error">获取图片失败</string>
+    <string name="image_select_max_error">已达选择上限</string>
 
 </resources>

@@ -53,13 +53,13 @@
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:drawablePadding="5dp"
-                android:drawableRight="@mipmap/imageselector_select_album"
+                android:drawableRight="@mipmap/image_select_file"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:singleLine="true"
-                android:text="所有图片"
+                android:text="@string/image_all"
                 android:textColor="#ffffff"
                 android:textSize="16sp"/>
 
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:indeterminateDrawable="@drawable/progress_small"
+                android:indeterminateDrawable="@drawable/progress"
                 />
         </RelativeLayout>
     </RelativeLayout>

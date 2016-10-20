@@ -1,11 +1,7 @@
 package com.app.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -56,17 +52,6 @@ public class FileUtile {
         }
         return x;
     }
-
-    public static void hideTitleBar(Activity activity, int resource, int steepToolBarColor) {
-        if (android.os.Build.VERSION.SDK_INT > 18) {
-            Window window = activity.getWindow();
-            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            LinearLayout whole_layout = (LinearLayout) activity.findViewById(resource);
-            whole_layout.setBackgroundColor(steepToolBarColor);
-            whole_layout.setPadding(0, activity.getResources().getDimensionPixelSize(getStatusBarHeight()), 0, 0);
-        }
-    }
-
     /**
      * exist SDCard
      */

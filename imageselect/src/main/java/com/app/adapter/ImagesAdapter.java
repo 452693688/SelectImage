@@ -73,7 +73,7 @@ public class ImagesAdapter extends BaseAdapter {
             paths.remove(path);
         }
         if (!isExist && paths.size() >= max) {
-            Toast.makeText(contex, "已达选择上限", Toast.LENGTH_LONG).show();
+            Toast.makeText(contex, R.string.image_select_max_error, Toast.LENGTH_LONG).show();
             return;
         }
         if (!isExist) {
@@ -111,7 +111,7 @@ public class ImagesAdapter extends BaseAdapter {
         if (i == 0) {
             holdeView.imageTv.setVisibility(View.VISIBLE);
             holdeView.imageIv.setVisibility(View.GONE);
-            holdeView.imageIv.setImageResource(R.mipmap.imageselector_select_photo);
+            holdeView.imageIv.setImageResource(R.mipmap.images_select_camera);
         } else {
             holdeView.imageTv.setVisibility(View.GONE);
             holdeView.imageIv.setVisibility(View.VISIBLE);
@@ -121,8 +121,8 @@ public class ImagesAdapter extends BaseAdapter {
         if (!isMore) {
             holdeView.selectIv.setVisibility(View.GONE);
         } else {
-            int imageId = paths.contains(bean.path) ? R.mipmap.imageselector_select_checked :
-                    R.mipmap.imageselector_select_uncheck;
+            int imageId = paths.contains(bean.path) ? R.mipmap.image_select_true :
+                    R.mipmap.image_select_false;
             holdeView.selectIv.setImageResource(imageId);
         }
         return view;

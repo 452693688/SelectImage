@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@null"
         android:scaleType="centerInside"
-        android:src="@mipmap/imageselector_photo"/>
+        android:src="@mipmap/image_select_default"/>
 
     <TextView
         android:id="@+id/item_image_tv"
@@ -20,9 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:drawablePadding="4dp"
-        android:drawableTop="@mipmap/imageselector_select_photo"
+        android:drawableTop="@mipmap/images_select_camera"
         android:gravity="center"
-        android:text="拍照"
+        android:text="@string/camera_hint"
         android:textSize="14sp"
         />
 
@@ -32,6 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
         android:contentDescription="@null"
-        android:src="@mipmap/imageselector_select_uncheck"/>
+        android:src="@mipmap/image_select_false"/>
 
 </FrameLayout>

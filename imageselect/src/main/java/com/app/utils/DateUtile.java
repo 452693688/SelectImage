@@ -10,9 +10,6 @@ import java.util.Locale;
  * Created by Yancy on 2015/12/2.
  */
 public class DateUtile {
-
-    private final static String TAG = "TimeUtils";
-
     private final static String PATTERN = "yyyy-MM-dd";
 
     public static String timeFormat(long timeMillis, String pattern) {
