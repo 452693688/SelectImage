@@ -14,7 +14,7 @@ public class ConfigBuile {
     private boolean isMore;
     //可开启相机
     private boolean showCamera;
-
+    private ImageLoader imageLoader;
     //
     public static ConfigBuile getNewBuile() {
         build = new ConfigBuile();
@@ -48,7 +48,7 @@ public class ConfigBuile {
         return getBuile();
     }
 
-    private ImageLoader imageLoader;
+
 
     public ConfigBuile setLoading(ImageLoader imageLoader) {
         this.imageLoader = imageLoader;
@@ -62,9 +62,7 @@ public class ConfigBuile {
         imageLoader.imageLoading(context, path, imageView);
     }
 
-    public interface ImageLoader {
-        void imageLoading(Context context, String path, ImageView imageView);
-    }
+
 
     public boolean isMore() {
         return isMore;

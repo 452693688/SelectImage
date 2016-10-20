@@ -5,6 +5,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.app.config.ConfigBuile;
+import com.app.config.ImageLoader;
 import com.bumptech.glide.Glide;
 import com.guomin.app.seletcimage.R;
 
@@ -68,7 +69,7 @@ public class Manager {
 
     }
 
-    class ImageShowType implements ConfigBuile.ImageLoader {
+    class ImageShowType implements ImageLoader {
 
         @Override
         public void imageLoading(Context context, String path, ImageView imageView) {
