@@ -36,7 +36,6 @@ public class ImageSelectManager {
                 .setBarBackHint("返回")
                 .setBarTitleHint("选择图片")
                 .setBarOptionHint("完成")
-                .setBarBackIconId(R.mipmap.imageselector_back)
                 .setBarOptionBackdropId(R.drawable.green_4_bg)
                 .complete()
                 .setLoading(new ImageShowType())
@@ -75,7 +74,7 @@ public class ImageSelectManager {
         public void imageLoading(Context context, String path, ImageView imageView) {
             Glide.with(context)
                     .load(path)
-                    .placeholder(R.mipmap.imageselector_photo)
+                    .placeholder(R.mipmap.image_select_default)
                     .centerCrop()
                     .into(imageView);
         }

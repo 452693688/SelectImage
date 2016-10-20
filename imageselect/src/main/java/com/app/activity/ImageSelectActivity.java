@@ -141,7 +141,11 @@ public class ImageSelectActivity extends AppCompatActivity {
         if (photoFile != null && photoFile.exists()) {
             photoFile.delete();
         }
-
+        //只拍照 并且已取消拍照
+        if (config.onlyPhotograph) {
+            setResult();
+            return;
+        }
     }
 
     protected void setFile(File imageFile) {

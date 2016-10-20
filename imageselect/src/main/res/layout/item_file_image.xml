@@ -49,7 +49,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingRight="10dp"
-            android:src="@mipmap/imageselector_selected"/>
+            android:src="@mipmap/image_select_file"/>
 
     </RelativeLayout>
 

@@ -30,11 +30,13 @@ public class ImagesAdapter extends BaseAdapter {
     private AbsListView.LayoutParams itemLayoutParams;
     private ArrayList<String> paths = new ArrayList<>();
     private Context contex;
+    private boolean isCamera;
     private boolean isMore;
 
-    public ImagesAdapter(Context contex, boolean isMore) {
+    public ImagesAdapter(Context contex, boolean isMore, boolean isCamera) {
         this.contex = contex;
         this.isMore = isMore;
+        this.isCamera = isCamera;
     }
 
     //设置照片的大小
@@ -118,12 +120,13 @@ public class ImagesAdapter extends BaseAdapter {
             ConfigBuile.getBuile().setImageLoading(viewGroup.getContext(),
                     bean.path, holdeView.imageIv);
         }
-        if (!isMore) {
+        if (!isMore || (i == 0 && isCamera)) {
             holdeView.selectIv.setVisibility(View.GONE);
         } else {
             int imageId = paths.contains(bean.path) ? R.mipmap.image_select_true :
                     R.mipmap.image_select_false;
             holdeView.selectIv.setImageResource(imageId);
+            holdeView.selectIv.setVisibility(View.VISIBLE);
         }
         return view;
     }

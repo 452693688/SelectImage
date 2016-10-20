@@ -38,7 +38,7 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
         }
         //
         GridView iamgeGv = (GridView) findViewById(R.id.image_gv);
-        iamgesAdapter = new ImagesAdapter(this, config.isMore);
+        iamgesAdapter = new ImagesAdapter(this, config.isMore,config.showCamera);
         iamgesAdapter.setItemSize(this);
         iamgeGv.setAdapter(iamgesAdapter);
         timeTv = (TextView) findViewById(R.id.time_tv);

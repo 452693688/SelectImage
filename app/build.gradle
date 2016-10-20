@@ -21,7 +21,7 @@ android {
 repositories { flatDir { dirs 'libs' } }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile(name: 'imageselect-release', ext: 'aar')
+    compile(name: 'imageselect-1.0', ext: 'aar')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
