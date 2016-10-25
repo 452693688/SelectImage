@@ -18,12 +18,16 @@ android {
         }
     }
 }
-repositories { flatDir { dirs 'libs' } }
+
+//使用arr配置
+//repositories { flatDir { dirs 'libs' } }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile(name: 'imageselect-1.0', ext: 'aar')
+    //使用arr
+    // compile(name: 'imageselect-1.0', ext: 'aar')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile project(':option')
 }
