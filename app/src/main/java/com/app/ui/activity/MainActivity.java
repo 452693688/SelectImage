@@ -23,26 +23,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.image_btn5).setOnClickListener(this);
     }
 
-    ImageSelectManager manager = new ImageSelectManager();
+    PhotoManager photoManager;
 
     @Override
     public void onClick(View view) {
+        if (photoManager == null) {
+            photoManager = new PhotoManager(this);
+        }
         switch (view.getId()) {
             case R.id.image_btn2:
                 //单张图片
-                manager.getSingleConfig(this);
+                photoManager.getSingleConfig();
                 break;
             case R.id.image_btn3:
                 //单张图片+裁剪
-                manager.getSingleCropConfig(this);
+                photoManager.getSingleCropConfig();
                 break;
             case R.id.image_btn4:
                 //只拍照
-                manager.getSinglePhotoConfig(this);
+                photoManager.getSinglePhotoConfig();
                 break;
             case R.id.image_btn5:
                 //多选
-                manager.getMoreConfig(this);
+                photoManager.getMoreConfig();
                 break;
         }
 

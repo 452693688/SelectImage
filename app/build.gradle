@@ -24,10 +24,11 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //使用arr
-    // compile(name: 'imageselect-1.0', ext: 'aar')
+    //compile(name: 'option-release', ext: 'aar')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile project(':option')
+    //compile 'com.guomin.image.option:option:1.0.1@aar'
 }
