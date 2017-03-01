@@ -26,11 +26,24 @@
         android:layout_height="wrap_content"
         android:text="只拍照"
         />
+    <Button
+        android:id="@+id/image_btn6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="只拍照+裁剪"
+        />
 
     <Button
         android:id="@+id/image_btn5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="多选"
+        />
+
+    <ImageView
+        android:id="@+id/image_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
         />
 </LinearLayout>

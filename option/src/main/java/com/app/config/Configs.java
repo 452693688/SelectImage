@@ -32,7 +32,7 @@ public class Configs implements Serializable {
     public int barOptionBackdropId;
     //
     public String barBackHint;
-    public String barTitleHint;
+    public String barTitleHint,barCorpTitleHint;
     public String barOptionHint;
     //可开启相机
     public boolean showCamera;
@@ -44,6 +44,8 @@ public class Configs implements Serializable {
     public String filePath;
     //裁剪
     public boolean isCrop;
+    //是否调用系统裁剪
+    public boolean isSystemCrop = true;
     public int aspectX;
     public int aspectY;
     public int outputX;
@@ -93,6 +95,7 @@ public class Configs implements Serializable {
             return;
         }
         isCrop = singBuile.isCrop();
+        isSystemCrop = singBuile.isSystemCrop();
         aspectX = singBuile.getAspectX();
         aspectY = singBuile.getAspectY();
         outputX = singBuile.getOutputX();
@@ -122,6 +125,7 @@ public class Configs implements Serializable {
         //
         barBackHint = buileBar.getBarBackHint();
         barTitleHint = buileBar.getBarTitleHint();
+        barCorpTitleHint = buileBar. getBarCorpTitleHint();
         barOptionHint = buileBar.getBarOptionHint();
     }
 

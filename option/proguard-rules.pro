@@ -18,5 +18,6 @@
 
 #不混淆所有的classcom.app.config包下的类和这些类的所有成员变量 不包扩内部类，内部接口
 -keep class com.app.config**{*;}
+-keep class com.app.unmix**{*;}
 
 

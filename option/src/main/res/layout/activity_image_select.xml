@@ -66,19 +66,10 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/progress_rl"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#999999"
-            >
+        <include
+            android:id="@+id/progress_il"
+            layout="@layout/view_progress"
+            />
 
-            <ProgressBar
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerInParent="true"
-                />
-        </RelativeLayout>
     </RelativeLayout>
 </LinearLayout>

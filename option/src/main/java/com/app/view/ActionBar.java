@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,8 +25,8 @@ import com.app.imageselect.R;
 public class ActionBar extends RelativeLayout {
 
     private TextView barTitleTv;
-    public TextView barBackTv;
-    public TextView barOptionTv;
+    private TextView barBackTv;
+    private TextView barOptionTv;
 
     public ActionBar(Context context) {
         super(context);
@@ -79,7 +80,7 @@ public class ActionBar extends RelativeLayout {
         barOptionTv = new TextView(context);
         barOptionTv.setPadding(20, 5, 20, 5);
         barOptionTv.setGravity(Gravity.CENTER);
-        barOptionTv.setTextSize(15);
+        barOptionTv.setTextSize(14);
         barOptionTv.setId(R.id.bra_option);
         barOptionTv.setLayoutParams(lp3);
         addView(barOptionTv);
@@ -89,16 +90,31 @@ public class ActionBar extends RelativeLayout {
         barOptionTv.setText(txt);
     }
 
-    public void setConfigs(Activity activity, Configs config) {
+    public void setConfigs(Activity activity, Configs config, View.OnClickListener clickListener) {
+        setConfigs(activity, config, clickListener, false);
+    }
+
+    //裁剪的activity用
+    public void setConfigsCrop(Activity activity, Configs config, View.OnClickListener clickListener) {
+        setConfigs(activity, config, clickListener, true);
+    }
+
+    private void setConfigs(Activity activity, Configs config,
+                            View.OnClickListener clickListener, boolean isCrop) {
         //设置默认hint
         if (!TextUtils.isEmpty(config.barBackHint)) {
             barBackTv.setText(config.barBackHint);
+            barBackTv.setOnClickListener(clickListener);
         }
-        if (!TextUtils.isEmpty(config.barTitleHint)) {
+        if (!TextUtils.isEmpty(config.barTitleHint) && !isCrop) {
             barTitleTv.setText(config.barTitleHint);
+        }
+        if (!TextUtils.isEmpty(config.barCorpTitleHint) && isCrop) {
+            barTitleTv.setText(config.barCorpTitleHint);
         }
         if (!TextUtils.isEmpty(config.barOptionHint)) {
             barOptionTv.setText(config.barOptionHint);
+            barOptionTv.setOnClickListener(clickListener);
         }
         //设置action高度
         if (config.actionBarHeight > 80) {

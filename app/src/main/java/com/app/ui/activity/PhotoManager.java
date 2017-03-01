@@ -89,13 +89,39 @@ public class PhotoManager {
                 .setActionBarHeight(barHeight)
                 .setBarBackHint("返回")
                 .setBarTitleHint("选择图片")
+                .setBarCorpTitleHint("裁剪")
+                .setBarOptionHint("完成")
                 .complete()
                 .setLoading(new ImageShowType())
                 .setShowCamera(true)
                 .setBuileSingle()
                 .setCrop(true)
-                .setAspect(60, 60)
-                .setOutput(60, 60)
+                .setSystemCrop(false)
+                .setAspect(600, 600)
+                .setOutput(600, 600)
+                .build(activity);
+
+    }
+
+    //单选只拍照+裁剪
+    public void getSinglePhotoCropConfig() {
+        ConfigBuile.getNewBuile()
+                .setBuileBar()
+                .setActionBarColor(0xffffffff)
+                .setStatusBarColor(0xff7db2fd)
+                .setActionBarHeight(barHeight)
+                .setBarBackHint("返回")
+                .setBarTitleHint("选择图片")
+                .setBarCorpTitleHint("裁剪")
+                .setBarOptionHint("完成")
+                .complete()
+                .setLoading(new ImageShowType())
+                .setBuileSingle()
+                .setCrop(true)
+                .setSystemCrop(false)
+                .setAspect(600, 600)
+                .setOutput(600, 600)
+                .setOnlyPhotograph(true)
                 .build(activity);
 
     }

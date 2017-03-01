@@ -15,9 +15,9 @@ import com.app.adapter.PopupAdapter;
 import com.app.bean.ImageBean;
 import com.app.bean.ImageFile;
 import com.app.imageselect.R;
-import com.app.utils.DateUtile;
-import com.app.utils.ImageMnager;
-import com.app.utils.ImageUtile;
+import com.app.photo.DateUtile;
+import com.app.photo.PhotosMnager;
+import com.app.photo.PhotoUtile;
 import com.app.view.ActionBar;
 
 import java.io.File;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IncidentActivity extends ImageSelectActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
-    private ImageMnager imageMnager;
+    private PhotosMnager imageMnager;
     private LoadingListener loadingListener = new LoadingListener();
 
 
@@ -33,7 +33,7 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
         boolean isOnlyPhotograph = config.onlyPhotograph;
         if (isOnlyPhotograph && !config.isMore) {
             //只拍照
-            photoFile = ImageUtile.showCameraAction(this, config);
+            photoFile = PhotoUtile.showCameraAction(this, config);
             return;
         }
         //
@@ -46,11 +46,7 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
         fileNameTv.setOnClickListener(this);
         footerRl = findViewById(R.id.footer_rl);
         actionBar = (ActionBar) findViewById(R.id.actionbar);
-        actionBar.setConfigs(this, config);
-        if (config.isMore) {
-            actionBar.barOptionTv.setOnClickListener(this);
-        }
-        actionBar.barBackTv.setOnClickListener(this);
+        actionBar.setConfigs(this, config, this);
         //
         iamgeGv.setOnScrollListener(new SlideListener());
         iamgeGv.setOnItemClickListener(this);
@@ -59,10 +55,10 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
 
     private void doRequest() {
         if (imageMnager == null) {
-            imageMnager = new ImageMnager(this, config.showCamera);
+            imageMnager = new PhotosMnager(this, config.showCamera);
             imageMnager.setOnLoadingListener(loadingListener);
         }
-        getSupportLoaderManager().initLoader(ImageMnager.LOADER_ALL, null, imageMnager);
+        getSupportLoaderManager().initLoader(PhotosMnager.LOADER_ALL, null, imageMnager);
 
     }
 
@@ -155,11 +151,11 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
     private List<ImageFile> imageFils;
 
     //读取数据库照片监听
-    class LoadingListener implements ImageMnager.OnLoadingListener {
+    class LoadingListener implements PhotosMnager.OnLoadingListener {
 
         @Override
         public void onLoadingListener(List<ImageFile> fils) {
-            findViewById(R.id.progress_rl).setVisibility(View.GONE);
+            findViewById(R.id.progress_il).setVisibility(View.GONE);
             if (fils == null) {
                 Toast.makeText(IncidentActivity.this, R.string.image_loading_error, Toast.LENGTH_SHORT).show();
                 return;

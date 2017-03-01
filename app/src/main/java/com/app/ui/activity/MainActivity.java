@@ -1,10 +1,12 @@
 package com.app.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.app.config.Configs;
 import com.guomin.app.seletcimage.R;
@@ -12,6 +14,8 @@ import com.guomin.app.seletcimage.R;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private ImageView iv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +25,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.image_btn3).setOnClickListener(this);
         findViewById(R.id.image_btn4).setOnClickListener(this);
         findViewById(R.id.image_btn5).setOnClickListener(this);
+        findViewById(R.id.image_btn6).setOnClickListener(this);
+
+        iv = (ImageView) findViewById(R.id.image_iv);
     }
 
     PhotoManager photoManager;
@@ -47,6 +54,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //多选
                 photoManager.getMoreConfig();
                 break;
+            case R.id.image_btn6:
+                //单选只拍照+裁剪
+                photoManager.getSinglePhotoCropConfig();
+                break;
         }
 
     }
@@ -56,12 +67,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Configs.TASK_COMPLETE) {
             ArrayList<String> pathList = data.getStringArrayListExtra(Configs.TASK_COMPLETE_RESULT);
-            if (pathList == null) {
+            if (pathList == null || pathList.size() == 0) {
                 return;
             }
             for (String path : pathList) {
                 Log.e("ImagePathList", path);
             }
+            String path = pathList.get(0);
+            Bitmap bit = ImageUtile.getSmallBitmap(path);
+            iv.setImageBitmap(bit);
+           /* Glide.with(this)
+                    .load(path)
+                    .placeholder(R.mipmap.image_select_default)
+                    .centerCrop()
+                    .into(iv);*/
+
         }
     }
 }

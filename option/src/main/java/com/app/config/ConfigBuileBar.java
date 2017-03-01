@@ -22,7 +22,7 @@ public class ConfigBuileBar {
     private int barOptionBackdropId;
     //
     private String barBackHint;
-    private String barTitleHint;
+    private String barTitleHint, barCorpTitleHint;
     private String barOptionHint;
 
     public ConfigBuileBar setStatusBarColor(int statusBarColor) {
@@ -82,6 +82,10 @@ public class ConfigBuileBar {
 
     public ConfigBuileBar setBarTitleHint(String barTitleHint) {
         this.barTitleHint = barTitleHint;
+        return this;
+    }
+    public ConfigBuileBar setBarCorpTitleHint(String barCorpTitleHint) {
+        this.barCorpTitleHint = barCorpTitleHint;
         return this;
     }
 
@@ -151,7 +155,9 @@ public class ConfigBuileBar {
     public String getBarTitleHint() {
         return barTitleHint;
     }
-
+    public String getBarCorpTitleHint() {
+        return barCorpTitleHint;
+    }
     public String getBarOptionHint() {
         return barOptionHint;
     }
