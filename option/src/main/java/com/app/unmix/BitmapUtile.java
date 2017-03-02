@@ -38,17 +38,17 @@ public class BitmapUtile {
     //对拍摄的照片进行旋转处理
     public static Bitmap imageRotate(String imagePath, Bitmap bm) {
         if (bm == null) {
-            DLog.e(TAG, "图片=null");
+            DLog.e(TAG, "Bitmap 无效");
             return null;
         }
         if (TextUtils.isEmpty(imagePath)) {
-            DLog.e(TAG, "图片路径不能为空");
+            DLog.e(TAG, "原始图片path不能为空");
             return null;
         }
         //1.获取图片旋转的角度，然后给它旋转回来
         int degree = readPictureDegree(imagePath);
         if (degree == 0) {
-            DLog.e(TAG, "不用旋转");
+            DLog.e(TAG, "无须处理");
             return bm;
         }
         //3.根据指定旋转度数进行图片旋转
@@ -128,10 +128,10 @@ public class BitmapUtile {
                     degree = 270;
                     break;
             }
-            DLog.e(TAG, "获取旋转信息成功：角度=" + degree);
+            DLog.e(TAG, "get degree：" + degree);
         } catch (IOException e) {
             e.printStackTrace();
-            DLog.e(TAG, "获取旋转信息失败");
+            DLog.e(TAG, "get degree error");
         }
         return degree;
 
@@ -151,7 +151,7 @@ public class BitmapUtile {
         // 旋转图片 动作
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
-        DLog.e(TAG, "旋转图片angle:" + angle);
+        DLog.e(TAG, "angle:" + angle + " complete");
         // 创建新的图片
         Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
                 bitmap.getWidth(), bitmap.getHeight(), matrix, true);

@@ -9,7 +9,7 @@ import android.app.Activity;
 public class ConfigBuileSingle {
     private boolean isOnlyPhotograph;
     private boolean isCrop;
-    private boolean isSystemCrop;
+    private boolean isNotSystemCrop;
     private int aspectX = 60;
     private int aspectY = 60;
     private int outputX = 60;
@@ -23,12 +23,12 @@ public class ConfigBuileSingle {
         isCrop = crop;
         return this;
     }
-    public boolean isSystemCrop() {
-        return isSystemCrop;
+    public boolean isNotSystemCrop () {
+        return isNotSystemCrop;
     }
 
-    public ConfigBuileSingle setSystemCrop(boolean systemCrop) {
-        isSystemCrop = systemCrop;
+    public ConfigBuileSingle setNotSystemCrop (boolean notSystemCrop) {
+        isNotSystemCrop = notSystemCrop;
         return this;
     }
     //设置边框

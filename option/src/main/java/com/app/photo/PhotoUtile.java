@@ -28,6 +28,8 @@ public class PhotoUtile {
         if (cameraIntent.resolveActivity(activity.getPackageManager()) != null) {
             // 设置系统相机拍照后的输出路径
             file = FileUtile.createPhotoFile(activity, config.filePath);
+            String path = file.getAbsolutePath();
+            DataStore.stringSave(activity, DataStore.PATH_TAKE, path);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
             cameraIntent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
             activity.startActivityForResult(cameraIntent, REQUEST_CAMERA);
@@ -40,6 +42,7 @@ public class PhotoUtile {
     //裁剪
     public static File crop(Activity activity, Configs config, String imagePath) {
         File file = FileUtile.createCropFile(activity, config.filePath);
+        DataStore.stringSave(activity, DataStore.PATH_CROP, file.getAbsolutePath());
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(Uri.fromFile(new File(imagePath)), "image/*");
         intent.putExtra("crop", "true");

@@ -92,11 +92,13 @@ public class ActionBar extends RelativeLayout {
 
     public void setConfigs(Activity activity, Configs config, View.OnClickListener clickListener) {
         setConfigs(activity, config, clickListener, false);
+
     }
 
     //裁剪的activity用
     public void setConfigsCrop(Activity activity, Configs config, View.OnClickListener clickListener) {
         setConfigs(activity, config, clickListener, true);
+
     }
 
     private void setConfigs(Activity activity, Configs config,
@@ -106,14 +108,13 @@ public class ActionBar extends RelativeLayout {
             barBackTv.setText(config.barBackHint);
             barBackTv.setOnClickListener(clickListener);
         }
-        if (!TextUtils.isEmpty(config.barTitleHint) && !isCrop) {
-            barTitleTv.setText(config.barTitleHint);
+        String titleHint = isCrop ? config.barCorpTitleHint : config.barTitleHint;
+        if (!TextUtils.isEmpty(titleHint)) {
+            barTitleTv.setText(titleHint);
         }
-        if (!TextUtils.isEmpty(config.barCorpTitleHint) && isCrop) {
-            barTitleTv.setText(config.barCorpTitleHint);
-        }
-        if (!TextUtils.isEmpty(config.barOptionHint)) {
-            barOptionTv.setText(config.barOptionHint);
+        String optionHint = isCrop ? config.barCorpOptionHint : config.barOptionHint;
+        if (!TextUtils.isEmpty(optionHint)) {
+            barOptionTv.setText(optionHint);
             barOptionTv.setOnClickListener(clickListener);
         }
         //设置action高度

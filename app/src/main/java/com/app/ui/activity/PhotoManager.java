@@ -44,6 +44,7 @@ public class PhotoManager {
                 .setBarOptionBackdropId(R.drawable.green_4_bg)
                 .complete()
                 .setLoading(new ImageShowType())
+                .setDebug(true)
                 .setShowCamera(true)
                 .setBuileMore()
                 .setImageSelectMaximum(3)
@@ -53,7 +54,6 @@ public class PhotoManager {
 
     //单选
     public void getSingleConfig() {
-
         ConfigBuile.getNewBuile()
                 .setBuileBar()
                 .setActionBarColor(0xffffffff)
@@ -64,6 +64,7 @@ public class PhotoManager {
                 .complete()
                 .setLoading(new ImageShowType())
                 .setShowCamera(true)
+                .setDebug(true)
                 .setBuileSingle()
                 .build(activity);
 
@@ -74,6 +75,7 @@ public class PhotoManager {
 
         ConfigBuile.getNewBuile()
                 .setLoading(new ImageShowType())
+                .setDebug(true)
                 .setBuileSingle()
                 .setOnlyPhotograph(true)
                 .build(activity);
@@ -93,10 +95,11 @@ public class PhotoManager {
                 .setBarOptionHint("完成")
                 .complete()
                 .setLoading(new ImageShowType())
+                .setDebug(true)
                 .setShowCamera(true)
                 .setBuileSingle()
                 .setCrop(true)
-                .setSystemCrop(false)
+                .setNotSystemCrop(true)
                 .setAspect(600, 600)
                 .setOutput(600, 600)
                 .build(activity);
@@ -116,9 +119,10 @@ public class PhotoManager {
                 .setBarOptionHint("完成")
                 .complete()
                 .setLoading(new ImageShowType())
+                .setDebug(true)
                 .setBuileSingle()
                 .setCrop(true)
-                .setSystemCrop(false)
+                .setNotSystemCrop(true)
                 .setAspect(600, 600)
                 .setOutput(600, 600)
                 .setOnlyPhotograph(true)
@@ -139,7 +143,7 @@ public class PhotoManager {
     }
 
     public List<String> onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Configs.TASK_COMPLETE) {
+        if (resultCode != Configs.TASK_START) {
             return null;
         }
         ArrayList<String> pathList = data.getStringArrayListExtra(Configs.TASK_COMPLETE_RESULT);

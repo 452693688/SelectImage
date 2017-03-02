@@ -3,6 +3,8 @@ package com.app.photo;
 import android.content.Context;
 import android.os.Environment;
 
+import com.app.unmix.DLog;
+
 import java.io.File;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -14,31 +16,35 @@ import java.util.Locale;
  */
 public class FileUtile {
     private final static String PATTERN = "yyyyMMddHHmmss";
+    private static String TAG = "FileUtile";
 
     //拍照获取 File
     public static File createPhotoFile(Context context, String filePath) {
+        File file;
         String timeStamp = new SimpleDateFormat(PATTERN, Locale.CHINA).format(new Date());
         File dir = new File(Environment.getExternalStorageDirectory() + filePath);
         if (FileUtile.existSDCard()) {
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            return new File(dir, timeStamp + ".png");
+            file = new File(dir, timeStamp + ".png");
         } else {
             File cacheDir = context.getCacheDir();
-            return new File(cacheDir, timeStamp + ".png");
+            file = new File(cacheDir, timeStamp + ".png");
         }
-
+        DLog.e(TAG, "照片存储path:" + file.getAbsolutePath());
+        return file;
     }
 
     public static File createCropFile(Context context, String filePath) {
-        File file ;
+        File file;
         if (FileUtile.existSDCard()) {
             file = new File(Environment.getExternalStorageDirectory() + filePath,
                     FileUtile.getImageName());
         } else {
             file = new File(context.getCacheDir(), FileUtile.getImageName());
         }
+        DLog.e(TAG, "照片裁剪存储path:" + file.getAbsolutePath());
         return file;
     }
 

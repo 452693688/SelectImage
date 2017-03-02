@@ -23,7 +23,7 @@ public class ConfigBuileBar {
     //
     private String barBackHint;
     private String barTitleHint, barCorpTitleHint;
-    private String barOptionHint;
+    private String barOptionHint,barCorpOptionHint;
 
     public ConfigBuileBar setStatusBarColor(int statusBarColor) {
         this.statusBarColor = statusBarColor;
@@ -93,7 +93,10 @@ public class ConfigBuileBar {
         this.barOptionHint = barOptionHint;
         return this;
     }
-
+    public ConfigBuileBar setBarCorpOptionHint(String barCorpOptionHint) {
+        this.barCorpOptionHint = barCorpOptionHint;
+        return this;
+    }
     public ConfigBuileBar setActionBarHeight(int actionBarHeight) {
         this.actionBarHeight = actionBarHeight;
         return this;
@@ -161,7 +164,9 @@ public class ConfigBuileBar {
     public String getBarOptionHint() {
         return barOptionHint;
     }
-
+    public String getBarCorpOptionHint() {
+        return barCorpOptionHint;
+    }
     public int getActionBarHeight() {
         return actionBarHeight;
     }

@@ -3,8 +3,10 @@ package com.app.config;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.app.activity.IncidentActivity;
+import com.app.photo.DataStore;
 
 import java.io.Serializable;
 
@@ -12,7 +14,10 @@ import java.io.Serializable;
  * Created by Administrator on 2016/10/17.
  */
 public class Configs implements Serializable {
-    public static final int TASK_COMPLETE = 200;
+    public static final int TASK_START = 200;
+    public static final int TASK_PICTURE_COMPLETE = 201;
+    public static final int TASK_CROP_COMPLETE = 202;
+    public static final int TASK_CANCEL = 203;
     public static final String TASK_COMPLETE_RESULT = "result";
     //导航条
     public int statusBarColor;
@@ -32,8 +37,8 @@ public class Configs implements Serializable {
     public int barOptionBackdropId;
     //
     public String barBackHint;
-    public String barTitleHint,barCorpTitleHint;
-    public String barOptionHint;
+    public String barTitleHint, barCorpTitleHint;
+    public String barOptionHint, barCorpOptionHint;
     //可开启相机
     public boolean showCamera;
     //多选
@@ -45,12 +50,12 @@ public class Configs implements Serializable {
     //裁剪
     public boolean isCrop;
     //是否调用系统裁剪
-    public boolean isSystemCrop = true;
+    public boolean isNotSystemCrop;
     public int aspectX;
     public int aspectY;
     public int outputX;
     public int outputY;
-
+    public boolean isDebug;
     //只拍照
     public boolean onlyPhotograph;
 
@@ -69,6 +74,7 @@ public class Configs implements Serializable {
         showCamera = build.isShowCamera();
         isMore = build.isMore();
         filePath = build.getFilePath();
+        isDebug = build.isDebug();
         ConfigBuileMore moreBuile = build.getBuileMore();
         ConfigBuileSingle singBuile = build.getBuileSingle();
         ConfigBuileBar buileBar = build.getBuileBar();
@@ -76,11 +82,12 @@ public class Configs implements Serializable {
         setBuileSingle(singBuile);
         setBuileBar(buileBar);
         //
+        DataStore.restData(activity);
         Intent it = new Intent(activity, IncidentActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("config", this);
         it.putExtras(bundle);
-        activity.startActivityForResult(it, TASK_COMPLETE);
+        activity.startActivityForResult(it, TASK_START);
     }
 
     private void setBuileMore(ConfigBuileMore moreBuile) {
@@ -95,7 +102,7 @@ public class Configs implements Serializable {
             return;
         }
         isCrop = singBuile.isCrop();
-        isSystemCrop = singBuile.isSystemCrop();
+        isNotSystemCrop = singBuile.isNotSystemCrop();
         aspectX = singBuile.getAspectX();
         aspectY = singBuile.getAspectY();
         outputX = singBuile.getOutputX();
@@ -125,8 +132,20 @@ public class Configs implements Serializable {
         //
         barBackHint = buileBar.getBarBackHint();
         barTitleHint = buileBar.getBarTitleHint();
-        barCorpTitleHint = buileBar. getBarCorpTitleHint();
+        barCorpTitleHint = buileBar.getBarCorpTitleHint();
         barOptionHint = buileBar.getBarOptionHint();
+        barCorpOptionHint = buileBar.getBarCorpOptionHint();
+        //
+        if (isCrop && TextUtils.isEmpty(barCorpTitleHint)) {
+            barCorpTitleHint = buileBar.getBarTitleHint();
+        }
+        if (isCrop && TextUtils.isEmpty(barCorpOptionHint)) {
+            barCorpOptionHint = buileBar.getBarOptionHint();
+        }
+        if (!isMore) {
+            barOptionHint = "";
+        }
+
     }
 
 }

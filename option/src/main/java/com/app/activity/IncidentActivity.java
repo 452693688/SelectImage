@@ -1,8 +1,11 @@
 package com.app.activity;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.ListPopupWindow;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -14,10 +17,13 @@ import com.app.adapter.ImagesAdapter;
 import com.app.adapter.PopupAdapter;
 import com.app.bean.ImageBean;
 import com.app.bean.ImageFile;
+import com.app.config.Configs;
 import com.app.imageselect.R;
+import com.app.photo.DataStore;
 import com.app.photo.DateUtile;
-import com.app.photo.PhotosMnager;
 import com.app.photo.PhotoUtile;
+import com.app.photo.PhotosMnager;
+import com.app.unmix.DLog;
 import com.app.view.ActionBar;
 
 import java.io.File;
@@ -27,12 +33,18 @@ import java.util.List;
 public class IncidentActivity extends ImageSelectActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
     private PhotosMnager imageMnager;
     private LoadingListener loadingListener = new LoadingListener();
+    private String TAG = "IncidentActivity";
 
-
-    protected void init() {
+    protected void init(Intent it) {
+        DLog.e(TAG, "onCreate");
         boolean isOnlyPhotograph = config.onlyPhotograph;
         if (isOnlyPhotograph && !config.isMore) {
             //只拍照
+            String photoPath = DataStore.stringGet(this, DataStore.PATH_TAKE);
+            if (!TextUtils.isEmpty(photoPath)) {
+                photoFile = new File(photoPath);
+                return;
+            }
             photoFile = PhotoUtile.showCameraAction(this, config);
             return;
         }
@@ -77,12 +89,12 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
         int id = view.getId();
         if (id == R.id.bra_option) {
             //更多发送
-            setResult();
+            setResultIntent(Configs.TASK_PICTURE_COMPLETE);
             return;
         }
         if (id == R.id.bra_back) {
             //返回
-            finish();
+            onBackPressed();
             return;
         }
         if (id == R.id.file_name_tv) {
@@ -193,4 +205,20 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DLog.e(TAG, "onDestroy");
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            DLog.e(TAG, "onConfigurationChanged=竖屏");
+        }
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            DLog.e(TAG, "onConfigurationChanged=横屏");
+        }
+    }
 }

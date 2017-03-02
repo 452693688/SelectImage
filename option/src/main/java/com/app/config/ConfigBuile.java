@@ -14,7 +14,10 @@ public class ConfigBuile {
     private boolean isMore;
     //可开启相机
     private boolean showCamera;
+    private boolean isDebug;
     private ImageLoader imageLoader;
+
+
     //
     public static ConfigBuile getNewBuile() {
         build = new ConfigBuile();
@@ -49,7 +52,6 @@ public class ConfigBuile {
     }
 
 
-
     public ConfigBuile setLoading(ImageLoader imageLoader) {
         this.imageLoader = imageLoader;
         return build;
@@ -62,7 +64,14 @@ public class ConfigBuile {
         imageLoader.imageLoading(context, path, imageView);
     }
 
+    public boolean isDebug() {
+        return isDebug;
+    }
 
+    public ConfigBuile setDebug(boolean debug) {
+        isDebug = debug;
+        return build;
+    }
 
     public boolean isMore() {
         return isMore;
@@ -73,7 +82,7 @@ public class ConfigBuile {
     }
 
     public Configs build(Activity activity) {
-        return new Configs(build,activity);
+        return new Configs(build, activity);
     }
 
     //设置选择更多

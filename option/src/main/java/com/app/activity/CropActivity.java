@@ -17,6 +17,7 @@ import com.app.crop.core.clippath.ClipPathLayerView;
 import com.app.crop.core.clippath.ClipPathSquare;
 import com.app.crop.core.mask.ColorMask;
 import com.app.imageselect.R;
+import com.app.photo.DataStore;
 import com.app.photo.FileUtile;
 import com.app.unmix.BitmapUtile;
 import com.app.unmix.DLog;
@@ -32,6 +33,8 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
     private String path;
     private int width, height;
     private LinearLayout contentLl;
+    private String TAG = "CropActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,22 +48,22 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
             width = it.getIntExtra("arg1", 0);
             height = it.getIntExtra("arg2", 0);
             bundle = it.getExtras();
-            DLog.e("CropActivity", "图片路径：" + path);
+            DLog.e(TAG, "图片路径：" + path);
         }
 
         if (bundle == null) {
-            DLog.e("CropActivity", "bundle：读取失败");
+            DLog.e(TAG, "bundle：读取失败");
             onBackPressed();
             return;
         }
         config = (Configs) bundle.getSerializable("config");
         if (config == null) {
-            DLog.e("CropActivity", "config：读取失败");
+            DLog.e(TAG, "config：读取失败");
             onBackPressed();
             return;
         }
         if (TextUtils.isEmpty(path)) {
-            DLog.e("CropActivity", "path：读取失败");
+            DLog.e(TAG, "path：读取失败");
             onBackPressed();
             return;
         }
@@ -83,9 +86,10 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
             File file = FileUtile.createPhotoFile(this, config.filePath);
             boolean isSave = BitmapUtile.saveBitmaps(bitmap, file);
             if (!isSave) {
-                DLog.e("", "保存失败");
+                DLog.e(TAG, "保存失败");
                 return;
             }
+            DataStore.stringSave(this, DataStore.PATH_CROP, file.getAbsolutePath());
             Intent it = new Intent();
             it.putExtra("arg0", file.getAbsolutePath());
             setResult(901, it);
@@ -113,7 +117,7 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
         //设置裁剪原图片
         Bitmap bitmap = BitmapUtile.resizeBitmap(path, width, height);
         if (bitmap == null) {
-            DLog.e("CropActivity", "bitmap：读取失败");
+            DLog.e(TAG, "bitmap：读取失败");
             onBackPressed();
             return;
         }
