@@ -7,7 +7,7 @@ import android.util.Log;
  */
 
 public class DLog {
-    public static boolean isDebug=true;
+    private static boolean isDebug;
 
     public static void e(String tag, Object obj) {
         if (!isDebug) {
@@ -15,10 +15,15 @@ public class DLog {
         }
         Log.e(tag, String.valueOf(obj));
     }
-    public static void e(  Object obj) {
+
+    public static void e(Object obj) {
         if (!isDebug) {
             return;
         }
         Log.e("===", String.valueOf(obj));
+    }
+
+    public static void setIsDebug(boolean debug) {
+        isDebug = debug;
     }
 }

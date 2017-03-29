@@ -1,132 +1,91 @@
 package com.app.config;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
+import android.text.TextUtils;
 
-import com.app.activity.IncidentActivity;
+import com.app.config.operation.ConfigBar;
+import com.app.config.operation.ConfigBarCommon;
+import com.app.config.operation.ConfigBarCrop;
+import com.app.config.operation.ConfigBarPreview;
+import com.app.config.operation.ConfigBuildMore;
+import com.app.config.operation.ConfigBuiledCrop;
+import com.app.config.entity.ImageEntity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/10/17.
  */
 public class Configs implements Serializable {
-    public static final int TASK_COMPLETE = 200;
+    public static final int TASK_START = 200;
+    public static final int TASK_PICTURE_COMPLETE = 201;
+    public static final int TASK_CROP_COMPLETE = 202;
+    public static final int TASK_CANCEL = 203;
+    public static final int TASK_PRIVATE_DELECTE = 204;
     public static final String TASK_COMPLETE_RESULT = "result";
-    //导航条
-    public int statusBarColor;
-    public int actionBarColor;
-    public int barBackColor;
-    public int barTitleColor;
-    public int barOptionColor;
-    // px
-    public int actionBarHeight;
-    public int barOptionHeight;
     //
-    public int barBackSize;
-    public int barTitleSize;
-    public int barOptionSize;
-    //
-    public int barBackIconId;
-    public int barOptionBackdropId;
-    //
-    public String barBackHint;
-    public String barTitleHint,barCorpTitleHint;
-    public String barOptionHint;
-    //可开启相机
-    public boolean showCamera;
+    public String filePath = "/temp/pictures";
+    //选中的图片 或者 要预览的图片
+    public ArrayList<String> listImagePath;
+    public ArrayList<ImageEntity> listImage;
     //多选
     public boolean isMore;
-    //最多可多照片的数量
-    public int imageSelectMaximum;
-    //照片存储路径
-    public String filePath;
     //裁剪
     public boolean isCrop;
-    //是否调用系统裁剪
-    public boolean isSystemCrop = true;
-    public int aspectX;
-    public int aspectY;
-    public int outputX;
-    public int outputY;
-
+    //只预览 选中的图片
+    public int previewIndex;
     //只拍照
-    public boolean onlyPhotograph;
+    public boolean isOnlyPhotograph;
+    //可开启相机
+    public boolean showCamera;
+    //
+    public boolean isDebug;
+    //bar
+    public ConfigBar configBar;
+    public ConfigBarCommon configBarCommon;
+    public ConfigBarCrop configBarCrop;
+    public ConfigBarPreview configPreview;
+    //
+    public ConfigBuildMore configBuildMore;
+    //
+    public ConfigBuiledCrop configBuildSingle;
+    //
+    public static Configs build;
 
-    public Configs(int imageSelectMaximum, boolean isMore, boolean isCrop, int aspectX, int aspectY, int outputX, int outputY, boolean showCamera) {
-        this.imageSelectMaximum = imageSelectMaximum;
-        this.isMore = isMore;
-        this.isCrop = isCrop;
-        this.aspectX = aspectX;
-        this.aspectY = aspectY;
-        this.outputX = outputX;
-        this.outputY = outputY;
-        this.showCamera = showCamera;
-    }
-
-    public Configs(ConfigBuile build, Activity activity) {
-        showCamera = build.isShowCamera();
-        isMore = build.isMore();
-        filePath = build.getFilePath();
-        ConfigBuileMore moreBuile = build.getBuileMore();
-        ConfigBuileSingle singBuile = build.getBuileSingle();
-        ConfigBuileBar buileBar = build.getBuileBar();
-        setBuileMore(moreBuile);
-        setBuileSingle(singBuile);
-        setBuileBar(buileBar);
-        //
-        Intent it = new Intent(activity, IncidentActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("config", this);
-        it.putExtras(bundle);
-        activity.startActivityForResult(it, TASK_COMPLETE);
-    }
-
-    private void setBuileMore(ConfigBuileMore moreBuile) {
-        if (moreBuile == null) {
-            return;
+    public ArrayList<String> getPaths() {
+        if (listImagePath == null) {
+            listImagePath = new ArrayList<>();
         }
-        imageSelectMaximum = moreBuile.getImageSelectMaximum();
-    }
-
-    private void setBuileSingle(ConfigBuileSingle singBuile) {
-        if (singBuile == null) {
-            return;
+        if (listImage == null) {
+            return listImagePath;
         }
-        isCrop = singBuile.isCrop();
-        isSystemCrop = singBuile.isSystemCrop();
-        aspectX = singBuile.getAspectX();
-        aspectY = singBuile.getAspectY();
-        outputX = singBuile.getOutputX();
-        outputY = singBuile.getOutputY();
-        onlyPhotograph = singBuile.isOnlyPhotograph();
-    }
-
-    private void setBuileBar(ConfigBuileBar buileBar) {
-        if (buileBar == null) {
-            return;
+        for (int i = 0; i < listImage.size(); i++) {
+            ImageEntity imageEntity = listImage.get(i);
+            String path = imageEntity.imagePath;
+            if (TextUtils.isEmpty(path)) {
+                continue;
+            }
+            listImagePath.add(path);
         }
-        statusBarColor = buileBar.getStatusBarColor();
-        actionBarColor = buileBar.getActionBarColor();
-        barBackColor = buileBar.getBarBackColor();
-        barTitleColor = buileBar.getBarTitleColor();
-        barOptionColor = buileBar.getBarOptionColor();
-        //
-        actionBarHeight = buileBar.getActionBarHeight();
-        barOptionHeight = buileBar.getBarOptionHeight();
-        //
-        barBackSize = buileBar.getBarBackSize();
-        barTitleSize = buileBar.getBarTitleSize();
-        barOptionSize = buileBar.getBarOptionSize();
-        //
-        barBackIconId = buileBar.getBarBackIconId();
-        barOptionBackdropId = buileBar.getBarOptionBackdropId();
-        //
-        barBackHint = buileBar.getBarBackHint();
-        barTitleHint = buileBar.getBarTitleHint();
-        barCorpTitleHint = buileBar. getBarCorpTitleHint();
-        barOptionHint = buileBar.getBarOptionHint();
+        return listImagePath;
     }
 
+    public ArrayList<ImageEntity> getImages() {
+        if (listImage == null) {
+            listImage = new ArrayList<>();
+        }
+        if (listImagePath == null) {
+            return listImage;
+        }
+        for (int i = 0; i < listImagePath.size(); i++) {
+            String path = listImagePath.get(i);
+            ImageEntity entity = new ImageEntity();
+            entity.imagePath = path;
+            if (TextUtils.isEmpty(path)) {
+                continue;
+            }
+            listImage.add(entity);
+        }
+        return listImage;
+    }
 }

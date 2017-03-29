@@ -2,7 +2,7 @@
 # By default, the flags in this file are appended to flags specified
 # in F:\android\sdk_install/tools/proguard/proguard-android.txt
 # You can edit the include path and order by changing the proguardFiles
-# directive in build.gradle.
+# directive in getBuild.gradle.
 #
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
@@ -18,6 +18,8 @@
 
 #不混淆所有的classcom.app.config包下的类和这些类的所有成员变量 不包扩内部类，内部接口
 -keep class com.app.config**{*;}
+-keep class com.app.config.operation**{*;}
+-keep class com.app.config.entity**{*;}
 -keep class com.app.unmix**{*;}
 
 

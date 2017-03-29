@@ -6,7 +6,7 @@
     android:background="#999999"
     android:orientation="vertical">
 
-    <com.app.view.ActionBar
+    <com.app.ui.view.ActionBar
         android:id="@+id/actionbar"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -17,13 +17,12 @@
         android:layout_height="match_parent"
         >
 
-        <GridView
+        <com.app.ui.view.ImageGridView
             android:id="@+id/image_gv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:horizontalSpacing="2dp"
             android:numColumns="3"
-            android:paddingBottom="40dp"
             android:verticalSpacing="2dp"/>
 
         <TextView
@@ -40,29 +39,38 @@
 
         <RelativeLayout
             android:id="@+id/footer_rl"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
+            style="@style/bottomRl"
             android:layout_alignParentBottom="true"
-            android:background="#CC000000"
-            android:clickable="true">
+            >
 
             <TextView
                 android:id="@+id/file_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:background="@null"
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/image_select_file"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
+                android:maxLength="10"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:singleLine="true"
                 android:text="@string/image_all"
-                android:textColor="#ffffff"
+                android:textColor="#CFCFCF"
                 android:textSize="16sp"/>
 
+            <TextView
+                android:id="@+id/preview_tv"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:hint="预览"
+                android:textColor="#CFCFCF"
+                android:textColorHint="#868887"
+                android:textSize="16sp"
+                />
 
         </RelativeLayout>
 

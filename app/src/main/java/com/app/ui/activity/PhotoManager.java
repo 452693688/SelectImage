@@ -7,7 +7,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
-import com.app.config.ConfigBuile;
+import com.app.config.ConfigBuild;
 import com.app.config.Configs;
 import com.app.config.ImageLoader;
 import com.bumptech.glide.Glide;
@@ -21,109 +21,119 @@ import java.util.List;
  */
 public class PhotoManager {
     private Activity activity;
-    private int barHeight;
+    private int barHeight, optionHeight;
 
     public PhotoManager(Activity activity) {
         this.activity = activity;
         barHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 42, activity.getResources().getDisplayMetrics());
+        optionHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                38, activity.getResources().getDisplayMetrics());
     }
 
 
     //更多选择
-    public void getMoreConfig() {
-        ConfigBuile.getNewBuile()
-                .setBuileBar()
+    public void getMoreConfig(int max, ArrayList<String> path) {
+        ConfigBuild.getNewBuild()
+                .setBuildBar()
                 .setActionBarColor(0xffffffff)
                 .setStatusBarColor(0xff7db2fd)
                 .setActionBarHeight(barHeight)
-                .setBarOptionHeight(60)
-                .setBarBackHint("返回")
-                .setBarTitleHint("选择图片")
-                .setBarOptionHint("完成")
-                .setBarOptionBackdropId(R.drawable.green_4_bg)
                 .complete()
+                .setBuildBarCommon()
+                .setBack("返回")
+                .setTitle("选择图片")
+                .setOption("完成")
+                .setOptionIconbg(R.drawable.green_4_bg)
+                .complete()
+                .setBuildBarPreview()
+                .setOption("发送哈")
+                .setTitle("无效")
+                .complete()
+                .setImagePath(path)
                 .setLoading(new ImageShowType())
+                .setDebug(true)
+                .setBuildMore()
+                .setImageSelectMaximum(max)
+                .complete()
                 .setShowCamera(true)
-                .setBuileMore()
-                .setImageSelectMaximum(3)
                 .build(activity);
     }
 
-
-    //单选
-    public void getSingleConfig() {
-
-        ConfigBuile.getNewBuile()
-                .setBuileBar()
-                .setActionBarColor(0xffffffff)
-                .setStatusBarColor(0xff7db2fd)
-                .setActionBarHeight(barHeight)
-                .setBarBackHint("返回")
-                .setBarTitleHint("选择图片")
-                .complete()
-                .setLoading(new ImageShowType())
-                .setShowCamera(true)
-                .setBuileSingle()
-                .build(activity);
-
-    }
-
-    //单选只拍照
+    //只拍照
     public void getSinglePhotoConfig() {
-
-        ConfigBuile.getNewBuile()
+        ConfigBuild.getNewBuild()
                 .setLoading(new ImageShowType())
-                .setBuileSingle()
+                .setDebug(true)
                 .setOnlyPhotograph(true)
                 .build(activity);
 
     }
 
-    //单选裁剪
-    public void getSingleCropConfig() {
-        ConfigBuile.getNewBuile()
-                .setBuileBar()
+    //拍照+裁剪
+    public void getCrop(boolean isOnlyPhotograph) {
+        ConfigBuild.getNewBuild()
+                .setBuildBar()
                 .setActionBarColor(0xffffffff)
                 .setStatusBarColor(0xff7db2fd)
                 .setActionBarHeight(barHeight)
-                .setBarBackHint("返回")
-                .setBarTitleHint("选择图片")
-                .setBarCorpTitleHint("裁剪")
-                .setBarOptionHint("完成")
                 .complete()
-                .setLoading(new ImageShowType())
-                .setShowCamera(true)
-                .setBuileSingle()
-                .setCrop(true)
-                .setSystemCrop(false)
+                .setBuildBarCommon()
+                .setBack("返回")
+                .setTitle("选择图片")
+                .setOption("完成")
+                .setOptionIconbg(R.drawable.green_4_bg)
+                .complete()
+                .setBuildBarCrop()
+                .setTitle("裁剪")
+                .setOption("裁剪发送")
+                .complete()
+                .setBuildCrop()
                 .setAspect(600, 600)
                 .setOutput(600, 600)
+                .setNotSystemCrop(false)
+                .complete()
+                .setLoading(new ImageShowType())
+                .setDebug(true)
+                .setOnlyPhotograph(isOnlyPhotograph)
                 .build(activity);
-
     }
 
-    //单选只拍照+裁剪
-    public void getSinglePhotoCropConfig() {
-        ConfigBuile.getNewBuile()
-                .setBuileBar()
+    //只预览
+    public void previewImage(ArrayList<String> listImagePath) {
+        ConfigBuild.getNewBuild()
+                .setBuildBar()
                 .setActionBarColor(0xffffffff)
                 .setStatusBarColor(0xff7db2fd)
                 .setActionBarHeight(barHeight)
-                .setBarBackHint("返回")
-                .setBarTitleHint("选择图片")
-                .setBarCorpTitleHint("裁剪")
-                .setBarOptionHint("完成")
                 .complete()
+                .setBuildBarPreview()
+                .setBack("返回")
+                .setTitle("预览")
+                .complete()
+                .setImagePath(listImagePath)
                 .setLoading(new ImageShowType())
-                .setBuileSingle()
-                .setCrop(true)
-                .setSystemCrop(false)
-                .setAspect(600, 600)
-                .setOutput(600, 600)
-                .setOnlyPhotograph(true)
-                .build(activity);
+                .setDebug(true)
+                .buildPreviewOnly(activity, 0);
+    }
 
+    //只预览可以删除
+    public void previewImageDelect(ArrayList<String> listImagePath) {
+        ConfigBuild.getNewBuild()
+                .setBuildBar()
+                .setActionBarColor(0xffffffff)
+                .setStatusBarColor(0xff7db2fd)
+                .setActionBarHeight(barHeight)
+                .complete()
+                .setBuildBarPreview()
+                .setBack("返回")
+                .setTitle("预览")
+                .setOption("删除")
+                .complete()
+                .setImagePath(listImagePath)
+                .setLoading(new ImageShowType())
+                .setDebug(true)
+                .buildPreviewDelete(activity, 0);
     }
 
     class ImageShowType implements ImageLoader {
@@ -139,7 +149,7 @@ public class PhotoManager {
     }
 
     public List<String> onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Configs.TASK_COMPLETE) {
+        if (resultCode != Configs.TASK_START) {
             return null;
         }
         ArrayList<String> pathList = data.getStringArrayListExtra(Configs.TASK_COMPLETE_RESULT);
