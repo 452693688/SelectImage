@@ -83,7 +83,7 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
         int id = v.getId();
         if (id == R.id.bra_option) {
             Bitmap bitmap = enjoyCropLayout.crop();
-            File file = FileUtile.createPhotoFile(this, config.filePath,"");
+            File file = FileUtile.createPhotoFile(this, config.filePath, "");
             boolean isSave = BitmapUtile.saveBitmaps(bitmap, file);
             if (!isSave) {
                 DLog.e(TAG, "保存失败");
@@ -131,9 +131,13 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void defineCropParams() {
-        int aspectX = config.configBuildSingle.getAspectX();
-        if (aspectX <= 0) {
-            aspectX = 100;
+        int outX = config.configBuildSingle.getOutputX();
+        int outY = config.configBuildSingle.getOutputY();
+        if (outX <= 0) {
+            outX = 100;
+        }
+        if (outY <= 0) {
+            outY = 100;
         }
         //设置裁剪集成视图，这里通过一定的方式集成了遮罩层与预览框
         BaseLayerView layerView = new ClipPathLayerView(this);
@@ -141,7 +145,7 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
         layerView.setMask(ColorMask.getTranslucentMask());
         //设置预览框形状
         // layerView.setShape(new ClipPathCircle(aspectX));
-        layerView.setShape(new ClipPathSquare(aspectX));
+        layerView.setShape(new ClipPathSquare(outX, outY));
         //设置裁剪集成视图
         enjoyCropLayout.setLayerView(layerView);
         //设置边界限制，如果设置了该参数，预览框则不会超出图片

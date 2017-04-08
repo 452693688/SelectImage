@@ -9,40 +9,55 @@ import com.app.ui.thing.crop.core.ILayer;
 
 /**
  * Canvas.clipPath(..)方式实现的正方形
+ *
  * @author Zhouztashin
  * @version 1.0
- * @created  2016/4/27.
+ * @created 2016/4/27.
  */
-public class ClipPathSquare implements  IClipPathShape {
-    private final int BORDER_WIDTH_DEFAULT = 6;
-    private int mWidth = 0;
-    private final Paint mPaint;
+public class ClipPathSquare implements IClipPathShape {
+    private int BORDER_WIDTH_DEFAULT = 6;
+    private int mWidth = 0, mheight;
+    private Paint mPaint;
 
     /**
-     *
      * @param width 宽度
      */
-    public ClipPathSquare(int width){
+
+    public ClipPathSquare(int width) {
         mWidth = width;
+        mheight = width;
+        init();
+    }
+
+    public ClipPathSquare(int width, int height) {
+        mWidth = width;
+        mheight = height;
+        init();
+    }
+
+    private void init() {
         mPaint = new Paint();
         mPaint.setColor(Color.WHITE);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(BORDER_WIDTH_DEFAULT);
         mPaint.setAntiAlias(true);
     }
+
     /**
      * 设置边框宽度 单位Px
+     *
      * @param borderWidth
      */
-    public void setBorderWidth(int borderWidth){
+    public void setBorderWidth(int borderWidth) {
         mPaint.setStrokeWidth(borderWidth);
     }
 
     /**
      * 设置边框颜色
+     *
      * @param colorResId
      */
-    public void setBorderColor(int colorResId){
+    public void setBorderColor(int colorResId) {
         mPaint.setColor(colorResId);
     }
 
@@ -54,14 +69,15 @@ public class ClipPathSquare implements  IClipPathShape {
 
     @Override
     public int height() {
-        return mWidth;
+        return mheight;
     }
+
     @Override
     public Path createShapePath(ILayer layer) {
-        int left = layer.width()/2- mWidth /2;
-        int top = layer.height()/2-mWidth /2;
+        int left = layer.width() / 2 - mWidth / 2;
+        int top = layer.height() / 2 - mheight / 2;
         Path path = new Path();
-        path.addRect(left, top, left + mWidth, top + mWidth, Path.Direction.CW);
+        path.addRect(left, top, left + mWidth, top + mheight, Path.Direction.CW);
         return path;
     }
 

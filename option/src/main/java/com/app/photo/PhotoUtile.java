@@ -28,7 +28,7 @@ public class PhotoUtile {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (cameraIntent.resolveActivity(activity.getPackageManager()) != null) {
             // 设置系统相机拍照后的输出路径
-             file = FileUtile.createPhotoFile(activity, config.filePath,fileAbsolutePath);
+            file = FileUtile.createPhotoFile(activity, config.filePath, fileAbsolutePath);
             String path = file.getAbsolutePath();
             DataStore.stringSave(activity, DataStore.PATH_TAKE, path);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
@@ -52,6 +52,7 @@ public class PhotoUtile {
         intent.putExtra("aspectY", crop.getAspectY());
         intent.putExtra("outputX", crop.getOutputX());
         intent.putExtra("outputY", crop.getOutputY());
+
         intent.putExtra("return-data", false);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         activity.startActivityForResult(intent, REQUEST_CROP);
