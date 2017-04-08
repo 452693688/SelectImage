@@ -84,7 +84,7 @@ public class ConfigBarCrop implements Serializable {
             titleColor = common.getTitleColor();
         }
         if (titleSize == 0) {
-            titleColor = common.getTitleSize();
+            titleSize = common.getTitleSize();
         }
         if (backColor == 0) {
             backColor = common.getBackColor();
@@ -96,7 +96,7 @@ public class ConfigBarCrop implements Serializable {
             backSize = common.getBackSize();
         }
         if (optionColor == 0) {
-            titleColor = common.getOptionColor();
+            optionColor = common.getOptionColor();
         }
         if (optionSize == 0) {
             optionSize = common.getOptionSize();
