@@ -143,7 +143,7 @@ public class PhotoManager {
             Glide.with(context)
                     .load(path)
                     .placeholder(R.mipmap.image_select_default)
-                    .centerCrop()
+                    //.centerCrop()
                     .into(imageView);
         }
     }

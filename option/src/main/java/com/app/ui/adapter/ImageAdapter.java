@@ -2,6 +2,7 @@ package com.app.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -126,7 +127,7 @@ public class ImageAdapter extends BaseAdapter {
         String hint = size > 0 ? "预览(" + size + ")" : "";
         previewTv.setText(hint);
         //设置已选择数
-        String sendhint = optionHint == null ? "" : optionHint;
+        String sendhint = TextUtils.isEmpty(optionHint) ? "" : optionHint;
         sendhint += " ( " + optionImage.size() + "/" + max + " ) ";
         actionBar.setOptionText(sendhint);
     }
@@ -141,7 +142,7 @@ public class ImageAdapter extends BaseAdapter {
     public void setOptionImage(ArrayList<ImageEntity> optionImage) {
         this.optionImage.clear();
         this.optionPaths.clear();
-        if (optionImage == null || optionImage.size() == 0) {
+        if (optionImage == null) {
             notifyDataSetChanged();
             return;
         }

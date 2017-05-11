@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         paths.add("/storage/emulated/0/temp/pictures/20170302145937.png");
         paths.add("/storage/emulated/0/temp/pictures/20170302144916.png");
         paths.add("/storage/emulated/0/temp/pictures/20170302145653..png");
-        paths.add("/storage/emulated/0/temp/pictures/20170302145704..png");
+        paths.add("http://m.bookfan.cn/images/blog/userid_101_20161223135300585cbbbce9f0a.jpg");
+
         return paths;
     }
 
