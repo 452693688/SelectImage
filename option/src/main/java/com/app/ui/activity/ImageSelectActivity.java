@@ -105,13 +105,13 @@ public class ImageSelectActivity extends AppCompatActivity {
         // 系统裁剪
         ConfigBuiledCrop crop = config.configBuildSingle;
         if (config.isCrop && !crop.isNotSystemCrop()) {
-            File file = PhotoUtile.crop(this, config, image.imagePath);
+            File file = PhotoUtile.crop(this, config, image.imagePathSource);
             cropImagePath = file == null ? "" : file.getAbsolutePath();
             return;
         }
         // 应用裁剪
         if (config.isCrop && crop.isNotSystemCrop()) {
-            appInCrop(image.imagePath);
+            appInCrop(image.imagePathSource);
             return;
         }
 
@@ -305,7 +305,7 @@ public class ImageSelectActivity extends AppCompatActivity {
     protected void setResultIntent(int resultCode, String path) {
         ArrayList<ImageEntity> iamges = new ArrayList<>();
         ImageEntity image = new ImageEntity();
-        image.imagePath = path;
+        image.imagePathSource = path;
         iamges.add(image);
         setResultIntent(resultCode, iamges);
     }

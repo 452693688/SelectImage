@@ -166,7 +166,7 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
         if (image == null) {
             String filePath = imageFile.getParent();
             image = new ImageEntity();
-            image.imagePath = imageFile.getPath();
+            image.imagePathSource = imageFile.getPath();
             image.imageFileName = filePath;
         }
         //加入到文件夹

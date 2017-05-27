@@ -61,7 +61,7 @@ public class Configs implements Serializable {
         }
         for (int i = 0; i < listImage.size(); i++) {
             ImageEntity imageEntity = listImage.get(i);
-            String path = imageEntity.imagePath;
+            String path = imageEntity.imagePathSource;
             if (TextUtils.isEmpty(path)) {
                 continue;
             }
@@ -80,7 +80,7 @@ public class Configs implements Serializable {
         for (int i = 0; i < listImagePath.size(); i++) {
             String path = listImagePath.get(i);
             ImageEntity entity = new ImageEntity();
-            entity.imagePath = path;
+            entity.imagePathSource = path;
             if (TextUtils.isEmpty(path)) {
                 continue;
             }

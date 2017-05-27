@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 public class ImageEntity implements Serializable {
 
-    //图片路径
+    //原图片路径
+    public String imagePathSource;
+    //裁剪或者压缩的图片路径
     public String imagePath;
     //图片名称
     public String imageName;

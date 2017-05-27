@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Bundle bundle = data.getExtras();
                 ArrayList<ImageEntity> image = (ArrayList<ImageEntity>) bundle.get(Configs.TASK_COMPLETE_RESULT);
                 Glide.with(this)
-                        .load(image.get(0).imagePath)
+                        .load(image.get(0).imagePathSource)
                         .placeholder(R.mipmap.image_select_default)
                         .centerCrop()
                         .into(iv);
@@ -100,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bundle = data.getExtras();
                 image = (ArrayList<ImageEntity>) bundle.get(Configs.TASK_COMPLETE_RESULT);
                 for (int i = 0; i < image.size(); i++) {
-                    Log.e("====", image.get(i).imagePath);
+                    Log.e("====", image.get(i).imagePathSource);
                 }
-                String path = image.get(0).imagePath;
+                String path = image.get(0).imagePathSource;
                 Bitmap bit = ImageUtile.getSmallBitmap(path);
                 iv.setImageBitmap(bit);
                 break;
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bundle = data.getExtras();
                 image = (ArrayList<ImageEntity>) bundle.get(Configs.TASK_COMPLETE_RESULT);
                 for (int i = 0; i < image.size(); i++) {
-                    Log.e("====", image.get(i).imagePath);
+                    Log.e("====", image.get(i).imagePathSource);
                 }
                 break;
         }

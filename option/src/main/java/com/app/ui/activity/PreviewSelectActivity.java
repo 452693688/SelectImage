@@ -45,7 +45,7 @@ public class PreviewSelectActivity extends PreviewActivity {
         List<ImageEntity> images = previewImageBean.images;
         index = previewImageBean.index;
         if (previewImageBean.type == 1) {
-            String imagePath = images.get(0).imagePath;
+            String imagePath = images.get(0).imagePathSource;
             if (TextUtils.isEmpty(imagePath)) {
                 images.remove(0);
                 index--;

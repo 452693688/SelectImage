@@ -95,11 +95,11 @@ public class ImageAdapter extends BaseAdapter {
 
     private void addORremovePath(int index) {
         ImageEntity image = images.get(index);
-        String path = image.imagePath;
+        String path = image.imagePathSource;
         boolean isExist = false;
         int optionIndex = 0;
         for (int i = 0; i < optionImage.size(); i++) {
-            isExist = path.equals(optionImage.get(i).imagePath);
+            isExist = path.equals(optionImage.get(i).imagePathSource);
             optionIndex = i;
             if (isExist) {
                 break;
@@ -150,7 +150,7 @@ public class ImageAdapter extends BaseAdapter {
             ImageEntity image = optionImage.get(i);
             if (image.isOption) {
                 this.optionImage.add(image);
-                this.optionPaths.add(image.imagePath);
+                this.optionPaths.add(image.imagePathSource);
             }
         }
         setShowHint();
@@ -160,7 +160,7 @@ public class ImageAdapter extends BaseAdapter {
     public void setPaths(ArrayList<String> paths) {
         for (int i = 0; i < paths.size(); i++) {
             ImageEntity imageBean = new ImageEntity();
-            imageBean.imagePath = paths.get(i);
+            imageBean.imagePathSource = paths.get(i);
             optionImage.add(imageBean);
         }
         optionPaths = paths;
@@ -198,7 +198,7 @@ public class ImageAdapter extends BaseAdapter {
             holdeView.imageTv.setVisibility(View.GONE);
             holdeView.imageIv.setVisibility(View.VISIBLE);
             ConfigBuild.getBuild().setImageLoading(viewGroup.getContext(),
-                    bean.imagePath, holdeView.imageIv);
+                    bean.imagePathSource, holdeView.imageIv);
         }
         if (isCrop) {
             holdeView.selectIv.setVisibility(View.GONE);
@@ -207,7 +207,7 @@ public class ImageAdapter extends BaseAdapter {
         if (i == 0 && isCamera) {
             holdeView.selectIv.setVisibility(View.GONE);
         } else {
-            int imageId = optionPaths.contains(bean.imagePath) ? R.mipmap.image_select_true :
+            int imageId = optionPaths.contains(bean.imagePathSource) ? R.mipmap.image_select_true :
                     R.mipmap.image_select_false;
             holdeView.selectIv.setImageResource(imageId);
             holdeView.selectIv.setVisibility(View.VISIBLE);

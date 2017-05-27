@@ -32,7 +32,7 @@ public class ImagePageAdapter extends PagerAdapter {
         images = previewImageBean.images;
         optionImage = previewImageBean.optionImage;
         for (int i = 0; i < optionImage.size(); i++) {
-            String imagePath = optionImage.get(i).imagePath;
+            String imagePath = optionImage.get(i).imagePathSource;
             optionPaths.add(imagePath);
         }
 
@@ -62,7 +62,7 @@ public class ImagePageAdapter extends PagerAdapter {
     //某张图片是否被选中
     public boolean isOptionPath(int index) {
         ImageEntity iamge = getPath(index);
-        return optionPaths.contains(iamge.imagePath);
+        return optionPaths.contains(iamge.imagePathSource);
     }
 
     //选择某张图片
@@ -71,13 +71,13 @@ public class ImagePageAdapter extends PagerAdapter {
         switch (type) {
             case 1:
                 ImageEntity image = images.get(index);
-                String path = image.imagePath;
+                String path = image.imagePathSource;
                 isExist = optionPaths.contains(path);
                 if (isExist) {
                     optionPaths.remove(path);
                     for (int i = 0; i < optionImage.size(); i++) {
                         ImageEntity temp = optionImage.get(i);
-                        if (path.equals(temp.imagePath)) {
+                        if (path.equals(temp.imagePathSource)) {
                             optionImage.remove(i);
                             break;
                         }
@@ -90,7 +90,7 @@ public class ImagePageAdapter extends PagerAdapter {
                 break;
             case 2:
                 image = optionImage.get(index);
-                path = image.imagePath;
+                path = image.imagePathSource;
                 isExist = optionPaths.contains(path);
                 if (isExist) {
                     image.isOption = false;
@@ -119,7 +119,7 @@ public class ImagePageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         PhotoView photoView = new PhotoView(activity);
-        String path = getPath(position).imagePath;
+        String path = getPath(position).imagePathSource;
         ConfigBuild.getBuild().setImageLoading(activity, path, photoView);
         photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
             @Override

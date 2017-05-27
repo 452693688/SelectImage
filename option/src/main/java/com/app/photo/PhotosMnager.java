@@ -111,7 +111,7 @@ public class PhotosMnager implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private ImageEntity readCursor(Cursor data) {
         ImageEntity image = new ImageEntity();
-        image.imagePath = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
+        image.imagePathSource = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
         image.imageName = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
         image.iamgeTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
         image.imageId = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[3]));
@@ -130,10 +130,10 @@ public class PhotosMnager implements LoaderManager.LoaderCallbacks<Cursor> {
         if (file.size != 0) {
             ImageEntity image = iamges.get(0);
             file.fileName = image.imageFileName;
-            file.firstImagePath = image.imagePath;
-            File imageFile = new File(image.imagePath);
+            file.firstImagePath = image.imagePathSource;
+            File imageFile = new File(image.imagePathSource);
             String filePath=imageFile.getParent();
-            file.filePath = filePath;//new File(image.imagePath).getParentFile().getAbsolutePath();
+            file.filePath = filePath;//new File(image.imagePathSource).getParentFile().getAbsolutePath();
         }
         if (showCamera) {
             //需要拍照，添加一个默认照片

@@ -51,7 +51,7 @@ public class ImageGridView extends GridView {
                 int index = firstVisibleItem + 1 == view.getAdapter().getCount() ? view.getAdapter().getCount() - 1 : firstVisibleItem + 1;
                 ImageEntity image = (ImageEntity) view.getAdapter().getItem(index);
                 if (image != null) {
-                    timeTv.setText(DateUtile.formatPhotoDate(image.imagePath));
+                    timeTv.setText(DateUtile.formatPhotoDate(image.imagePathSource));
                 }
             }
         }

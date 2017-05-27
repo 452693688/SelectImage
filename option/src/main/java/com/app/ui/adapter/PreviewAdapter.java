@@ -46,7 +46,7 @@ public class PreviewAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         PhotoView photoView = new PhotoView(context);
         ImageEntity entity = images.get(position);
-        ConfigBuild.getBuild().setImageLoading(context, entity.imagePath, photoView);
+        ConfigBuild.getBuild().setImageLoading(context, entity.imagePathSource, photoView);
         photoView.setOnPhotoTapListener(new PhotoTapListener());
         container.addView(photoView);
         return photoView;
