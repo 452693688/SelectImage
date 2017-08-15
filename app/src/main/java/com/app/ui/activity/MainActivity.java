@@ -72,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.image_btn6:
                 //选图+系统裁剪
-                photoManager.getCrop(false);
+                //photoManager.getCrop(false);
+                photoManager.crop(false);
                 break;
         }
 

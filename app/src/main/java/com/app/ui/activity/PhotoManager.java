@@ -135,7 +135,34 @@ public class PhotoManager {
                 .setDebug(true)
                 .buildPreviewDelete(activity, 0);
     }
-
+    public void crop(boolean isonlyPhotograph) {
+        ConfigBuild.getNewBuild()
+                .setBuildBar()
+                .setActionBarColor(0xffffffff)
+                .setStatusBarColor(0xff7db2fd)
+                .setActionBarHeight(barHeight)
+                .complete()
+                .setBuildBarCommon()
+                .setBack("返回")
+                .setTitle("选择图片")
+                .setOption("完成")
+                .setOptionIconbg(R.drawable.green_4_bg)
+                .complete()
+                .setBuildBarCrop()
+                .setTitle("裁剪")
+                .setOption("发送")
+                .complete()
+                .setBuildCrop()
+                .setAspect(600, 600)
+                .setOutput(600, 600)
+                .setNotSystemCrop(true)
+                .complete()
+                .setLoading(new ImageShowType())
+                .setDebug(true)
+                .setShowCamera(true)
+                .setOnlyPhotograph(isonlyPhotograph)
+                .build(activity);
+    }
     class ImageShowType implements ImageLoader {
 
         @Override

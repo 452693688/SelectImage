@@ -1,5 +1,7 @@
 package com.app.photo;
 
+import android.text.TextUtils;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,12 +25,15 @@ public class DateUtile {
     }
 
     public static String formatPhotoDate(String filePath) {
+        if (TextUtils.isEmpty(filePath)) {
+            return "";
+        }
         File file = new File(filePath);
         if (file.exists()) {
             long time = file.lastModified();
             return formatPhotoDate(time);
         }
-        return "1970-01-01";
+        return "";
     }
 
 }
