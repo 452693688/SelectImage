@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.config.ConfigBuild;
-import com.app.imageselect.R;
 import com.app.config.entity.ImageEntity;
+import com.app.imageselect.R;
 import com.app.ui.view.ActionBar;
 
 import java.util.ArrayList;
@@ -28,11 +28,15 @@ import java.util.List;
  * Created by Administrator on 2016/10/17.
  */
 public class ImageAdapter extends BaseAdapter {
+    //所有的图片
     private List<ImageEntity> images = new ArrayList<>();
     private AbsListView.LayoutParams itemLayoutParams;
     //已经选择的图片
     private ArrayList<ImageEntity> optionImage = new ArrayList<>();
+    //选中的paths
     private ArrayList<String> optionPaths = new ArrayList<>();
+    //选中的不可以删除的paths（从外部传来，固定不动的）
+    private ArrayList<String> optionFixationPaths = new ArrayList<>();
     private Context contex;
     private boolean isCrop, isCamera;
     private int max;
@@ -93,8 +97,46 @@ public class ImageAdapter extends BaseAdapter {
         return images.get(i);
     }
 
+    //设置选中的图片
+    public void setImages(ArrayList<ImageEntity> optionImage) {
+        optionPaths = new ArrayList<>();
+        for (int i = 0; i < optionImage.size(); i++) {
+            ImageEntity image = optionImage.get(i);
+            optionPaths.add(image.imagePathSource);
+            if (image.isDelete) {
+                continue;
+            }
+            optionFixationPaths.add(image.imagePathSource);
+        }
+        this.optionImage = optionImage;
+        setShowHint();
+        notifyDataSetChanged();
+    }
+
+    public void setOptionImage(ArrayList<ImageEntity> optionImage) {
+        this.optionImage.clear();
+        this.optionPaths.clear();
+        if (optionImage == null) {
+            notifyDataSetChanged();
+            return;
+        }
+        for (int i = 0; i < optionImage.size(); i++) {
+            ImageEntity image = optionImage.get(i);
+            if (image.isOption) {
+                this.optionImage.add(image);
+                this.optionPaths.add(image.imagePathSource);
+            }
+        }
+        setShowHint();
+        notifyDataSetChanged();
+    }
     private void addORremovePath(int index) {
         ImageEntity image = images.get(index);
+        if (optionFixationPaths.contains(image.imagePathSource)) {
+            //图片不能删除
+            ConfigBuild.getBuild().interdictMsg(contex,image);
+            return;
+        }
         String path = image.imagePathSource;
         boolean isExist = false;
         int optionIndex = 0;
@@ -139,34 +181,6 @@ public class ImageAdapter extends BaseAdapter {
         return optionImage;
     }
 
-    public void setOptionImage(ArrayList<ImageEntity> optionImage) {
-        this.optionImage.clear();
-        this.optionPaths.clear();
-        if (optionImage == null) {
-            notifyDataSetChanged();
-            return;
-        }
-        for (int i = 0; i < optionImage.size(); i++) {
-            ImageEntity image = optionImage.get(i);
-            if (image.isOption) {
-                this.optionImage.add(image);
-                this.optionPaths.add(image.imagePathSource);
-            }
-        }
-        setShowHint();
-        notifyDataSetChanged();
-    }
-
-    public void setPaths(ArrayList<String> paths) {
-        for (int i = 0; i < paths.size(); i++) {
-            ImageEntity imageBean = new ImageEntity();
-            imageBean.imagePathSource = paths.get(i);
-            optionImage.add(imageBean);
-        }
-        optionPaths = paths;
-        setShowHint();
-        notifyDataSetChanged();
-    }
 
     @Override
     public long getItemId(int i) {

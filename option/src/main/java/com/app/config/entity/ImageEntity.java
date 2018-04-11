@@ -27,4 +27,7 @@ public class ImageEntity implements Serializable {
     //true 被选中
     public boolean isOption;
     public boolean originalShape;
+    //false 不可以删除
+    public boolean isDelete = true;
+
 }

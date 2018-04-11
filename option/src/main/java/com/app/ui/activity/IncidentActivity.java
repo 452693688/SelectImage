@@ -68,7 +68,7 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
         adapter.setPreviewView(previewTv);
         adapter.setSendView(actionBar, config.configBarCommon.getOption());
         imageGridView.setAdapter(adapter);
-        adapter.setPaths(config.getPaths());
+        adapter.setImages(config.getImages());
         //
         imageGridView.setShowView(timeTv);
         imageGridView.setOnItemClickListener(this);

@@ -52,7 +52,7 @@ public class Configs implements Serializable {
     //
     public static Configs build;
 
-    public ArrayList<String> getPaths() {
+   /* public ArrayList<String> getPaths() {
         if (listImagePath == null) {
             listImagePath = new ArrayList<>();
         }
@@ -68,7 +68,7 @@ public class Configs implements Serializable {
             listImagePath.add(path);
         }
         return listImagePath;
-    }
+    }*/
 
     public ArrayList<ImageEntity> getImages() {
         if (listImage == null) {

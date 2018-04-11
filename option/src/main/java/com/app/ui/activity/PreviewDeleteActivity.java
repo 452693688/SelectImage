@@ -69,11 +69,15 @@ public class PreviewDeleteActivity extends PreviewActivity {
         if (id == R.id.bra_option) {
             //删除图片
             int count = adapter.getCount();
+            boolean isDelect = adapter.isDeleteImage(position);
+            if (!isDelect) {
+                return;
+            }
             if (count == 1) {
                 setResultIntent(new ArrayList<ImageEntity>());
                 return;
             }
-            adapter.setDelect(position);
+            adapter.deleteImage(position);
             count -= 1;
             if (position > (count - 1)) {
                 position = count;

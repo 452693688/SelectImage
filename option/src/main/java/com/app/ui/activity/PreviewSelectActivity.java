@@ -106,8 +106,13 @@ public class PreviewSelectActivity extends PreviewActivity {
         setResult(904, it);
         super.onBackPressed();
     }
+
     //选择图片逻辑
     private void setSelct() {
+        boolean isDelete = imagePageAdapter.isDeleteImage(index);
+        if (!isDelete) {
+            return;
+        }
         boolean isExist = imagePageAdapter.isOptionPath(index);
         int optionSize = imagePageAdapter.getOptionSize();
         if (!isExist && optionSize >= max) {

@@ -9,35 +9,30 @@
         <activity
             android:name="com.app.ui.activity.IncidentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
             android:name="com.app.ui.activity.CropActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
             android:name="com.app.ui.activity.PreviewSelectActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/PickerThemeFullScreen">
         </activity>
         <activity
             android:name="com.app.ui.activity.PreviewDeleteActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/PickerThemeFullScreen">
         </activity>
         <activity
             android:name="com.app.ui.activity.PreviewOnlyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/PickerThemeFullScreen">
         </activity>

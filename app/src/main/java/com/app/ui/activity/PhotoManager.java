@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import com.app.config.ConfigBuild;
 import com.app.config.Configs;
 import com.app.config.ImageLoader;
+import com.app.config.entity.ImageEntity;
+import com.app.unmix.DLog;
 import com.bumptech.glide.Glide;
 import com.guomin.app.seletcimage.R;
 
@@ -51,6 +53,33 @@ public class PhotoManager {
                 .setTitle("无效")
                 .complete()
                 .setImagePath(path)
+                .setLoading(new ImageShowType())
+                .setDebug(true)
+                .setBuildMore()
+                .setImageSelectMaximum(max)
+                .complete()
+                .setShowCamera(true)
+                .build(activity);
+    }
+
+    public void getMoreConfig2(int max, ArrayList<ImageEntity> images) {
+        ConfigBuild.getNewBuild()
+                .setBuildBar()
+                .setActionBarColor(0xffffffff)
+                .setStatusBarColor(0xff7db2fd)
+                .setActionBarHeight(barHeight)
+                .complete()
+                .setBuildBarCommon()
+                .setBack("返回")
+                .setTitle("选择图片")
+                .setOption("完成")
+                .setOptionIconbg(R.drawable.green_4_bg)
+                .complete()
+                .setBuildBarPreview()
+                .setOption("发送哈")
+                .setTitle("无效")
+                .complete()
+                .setImages(images)
                 .setLoading(new ImageShowType())
                 .setDebug(true)
                 .setBuildMore()
@@ -135,6 +164,26 @@ public class PhotoManager {
                 .setDebug(true)
                 .buildPreviewDelete(activity, 0);
     }
+
+    //只预览可以删除
+    public void previewImageDelect2(ArrayList<ImageEntity> images) {
+        ConfigBuild.getNewBuild()
+                .setBuildBar()
+                .setActionBarColor(0xffffffff)
+                .setStatusBarColor(0xff7db2fd)
+                .setActionBarHeight(barHeight)
+                .complete()
+                .setBuildBarPreview()
+                .setBack("返回")
+                .setTitle("预览")
+                .setOption("删除")
+                .complete()
+                .setImages(images)
+                .setLoading(new ImageShowType())
+                .setDebug(true)
+                .buildPreviewDelete(activity, 0);
+    }
+
     public void crop(boolean isonlyPhotograph) {
         ConfigBuild.getNewBuild()
                 .setBuildBar()
@@ -163,6 +212,7 @@ public class PhotoManager {
                 .setOnlyPhotograph(isonlyPhotograph)
                 .build(activity);
     }
+
     class ImageShowType implements ImageLoader {
 
         @Override
@@ -172,6 +222,11 @@ public class PhotoManager {
                     .placeholder(R.mipmap.image_select_default)
                     //.centerCrop()
                     .into(imageView);
+        }
+
+        @Override
+        public void interdictMsg(Context context, ImageEntity imageEntity) {
+            DLog.e("-------", "不能删除图片............");
         }
     }
 

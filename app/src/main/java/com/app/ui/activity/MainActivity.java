@@ -42,6 +42,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return paths;
     }
 
+    private ArrayList<ImageEntity> getImage() {
+        ArrayList<ImageEntity> iamges = new ArrayList<>();
+        ImageEntity image = new ImageEntity();
+        image.imagePathSource = "http://m.bookfan.cn/images/blog/userid_101_20161223135300585cbbbce9f0a.jpg";
+        image.isDelete = false;
+        iamges.add(image);
+        ImageEntity image1 = new ImageEntity();
+        image1.imagePathSource = "/storage/emulated/0/wandoujia/downloader/icon/main_tab_-1996466411.png";
+        iamges.add(image1);
+        ImageEntity image2 = new ImageEntity();
+        image2.imagePathSource = "/storage/emulated/0/haoyisheng/1522639040658.jpg";
+        image2.isDelete = false;
+        iamges.add(image2);
+        return iamges;
+    }
+
     PhotoManager photoManager;
 
     @Override
@@ -56,7 +72,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.image_btn9:
                 //预览和删除
-                photoManager.previewImageDelect(getPaths());
+                // photoManager.previewImageDelect(getPaths());
+                photoManager.previewImageDelect2(getImage());
+
                 break;
             case R.id.image_btn3:
                 //单张图片+裁剪
@@ -68,7 +86,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.image_btn5:
                 //多选
-                photoManager.getMoreConfig(8, getPaths());
+                //photoManager.getMoreConfig(1, null);
+                photoManager.getMoreConfig2(3, getImage());
                 break;
             case R.id.image_btn6:
                 //选图+系统裁剪

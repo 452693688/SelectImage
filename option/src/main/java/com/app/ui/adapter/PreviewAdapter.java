@@ -33,7 +33,18 @@ public class PreviewAdapter extends PagerAdapter {
         return images.size();
     }
 
-    public void setDelect(int index) {
+    //true 可以删除图片
+    public boolean isDeleteImage(int index) {
+        ImageEntity image = images.get(index);
+        if (!image.isDelete) {
+            //图片不能删除
+            ConfigBuild.getBuild().interdictMsg(context,image);
+            return false;
+        }
+        return true;
+    }
+
+    public void deleteImage(int index) {
         images.remove(index);
         notifyDataSetChanged();
     }

@@ -132,7 +132,12 @@ public class ConfigBuild implements Serializable {
         }
         imageLoader.imageLoading(context, path, imageView);
     }
-
+    public void interdictMsg(Context context,ImageEntity imageEntity) {
+        if (imageLoader == null) {
+            return;
+        }
+        imageLoader.interdictMsg(context,imageEntity);
+    }
     public void build(Activity activity) {
         if (configs.configBuildSingle != null) {
             configs.configBuildMore = null;

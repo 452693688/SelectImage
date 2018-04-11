@@ -59,6 +59,17 @@ public class ImagePageAdapter extends PagerAdapter {
         return optionPaths.size();
     }
 
+    //true 可以删除图片
+    public boolean isDeleteImage(int index) {
+        ImageEntity image = getPath(index);
+        if (!image.isDelete) {
+            //图片不能删除
+            ConfigBuild.getBuild().interdictMsg(activity,image);
+            return false;
+        }
+        return true;
+    }
+
     //某张图片是否被选中
     public boolean isOptionPath(int index) {
         ImageEntity iamge = getPath(index);
