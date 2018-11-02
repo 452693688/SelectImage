@@ -2,10 +2,28 @@
 <manifest package="com.app.imageselect"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
+        <!--//指向v4包里的FileProvider类-->
+        <!--//对应你的content uri的基础域名，生成的uri将以content://com.example.myapp.fileprovider作为开头-->
+        <!--//设置允许获取访问uri的临时权限-->
+        <!--//设置不允许导出，我们的FileProvider应该是私有的-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.image.option.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            >
+            <!--//用于设置FileProvider的文件访问路径-->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/image_paths"
+                />
+        </provider>
+
         <activity
             android:name="com.app.ui.activity.IncidentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

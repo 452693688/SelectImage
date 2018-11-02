@@ -3,11 +3,14 @@ package com.app.photo;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
 import com.app.config.Configs;
 import com.app.config.operation.ConfigBuiledCrop;
+import com.app.unmix.DLog;
 
 import java.io.File;
 
@@ -31,7 +34,16 @@ public class PhotoUtile {
             file = FileUtile.createPhotoFile(activity, config.filePath, fileAbsolutePath);
             String path = file.getAbsolutePath();
             DataStore.stringSave(activity, DataStore.PATH_TAKE, path);
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+            Uri uri;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                uri = FileProvider.getUriForFile(activity.getApplicationContext(),
+                        "com.image.option.fileprovider", file);
+                cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            } else {
+                uri = Uri.fromFile(file);
+            }
+            DLog.e("url",uri.toString());
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             cameraIntent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
             activity.startActivityForResult(cameraIntent, REQUEST_CAMERA);
         } else {

@@ -56,6 +56,18 @@ public class PhotosMnager implements LoaderManager.LoaderCallbacks<Cursor> {
         return image;
     }
 
+    //高版本用
+    public ImageEntity getImage2(Context context, Uri uri) {
+        ImageEntity image = null;
+        Cursor data = context.getContentResolver().query(uri, null,
+                null, null, null);
+        if (data != null) {
+            data.moveToFirst();
+            image = readCursor(data);
+        }
+        return image;
+    }
+
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         CursorLoader cursorLoader = new CursorLoader(contet,
@@ -132,7 +144,7 @@ public class PhotosMnager implements LoaderManager.LoaderCallbacks<Cursor> {
             file.fileName = image.imageFileName;
             file.firstImagePath = image.imagePathSource;
             File imageFile = new File(image.imagePathSource);
-            String filePath=imageFile.getParent();
+            String filePath = imageFile.getParent();
             file.filePath = filePath;//new File(image.imagePathSource).getParentFile().getAbsolutePath();
         }
         if (showCamera) {
