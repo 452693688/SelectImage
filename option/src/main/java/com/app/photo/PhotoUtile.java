@@ -1,6 +1,7 @@
 package com.app.photo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -36,13 +37,16 @@ public class PhotoUtile {
             DataStore.stringSave(activity, DataStore.PATH_TAKE, path);
             Uri uri;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                uri = FileProvider.getUriForFile(activity.getApplicationContext(),
-                        "com.image.option.fileprovider", file);
+                Context con = activity.getApplicationContext();
+                String pck = con.getPackageName();
+                uri = FileProvider.getUriForFile(con,
+                        pck + ".fileprovider", file);
+                DLog.e("pck", pck);
                 cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             } else {
                 uri = Uri.fromFile(file);
             }
-            DLog.e("url",uri.toString());
+            DLog.e("url", uri.toString());
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             cameraIntent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
             activity.startActivityForResult(cameraIntent, REQUEST_CAMERA);
