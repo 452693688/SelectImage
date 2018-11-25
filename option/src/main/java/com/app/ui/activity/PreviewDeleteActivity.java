@@ -55,6 +55,7 @@ public class PreviewDeleteActivity extends PreviewActivity {
         onPageSelected(position);
     }
 
+
     @Override
     protected void onClick(int id) {
         if (id == R.id.bra_back) {
@@ -94,6 +95,14 @@ public class PreviewDeleteActivity extends PreviewActivity {
         it.putExtras(bundle);
         setResult(Configs.TASK_PRIVATE_DELECTE, it);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent it = new Intent();
+        setResult(Configs.TASK_CANCEL, it);
+        finish();
+
     }
 
     private int position;

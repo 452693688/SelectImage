@@ -40,7 +40,7 @@ public class PhotoUtile {
                 Context con = activity.getApplicationContext();
                 String pck = con.getPackageName();
                 uri = FileProvider.getUriForFile(con,
-                        pck + ".fileprovider", file);
+                        pck , file);
                 DLog.e("pck", pck);
                 cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             } else {
