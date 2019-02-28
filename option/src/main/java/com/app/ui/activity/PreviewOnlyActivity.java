@@ -54,7 +54,7 @@ public class PreviewOnlyActivity extends PreviewActivity {
 
     @Override
     public void onClick(int id) {
-        if (id == R.id.bra_back) {
+        if (id == R.id.action_back) {
             onBackPressed();
             return;
         }

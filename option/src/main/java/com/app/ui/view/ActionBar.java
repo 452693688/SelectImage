@@ -65,7 +65,7 @@ public class ActionBar extends RelativeLayout {
         barBackTv.setGravity(Gravity.CENTER);
         barBackTv.setTextSize(15);
         barBackTv.setCompoundDrawablePadding(10);
-        barBackTv.setId(R.id.bra_back);
+        barBackTv.setId(R.id.action_back);
         barBackTv.setLayoutParams(lp1);
         addView(barBackTv);
         //
@@ -74,7 +74,7 @@ public class ActionBar extends RelativeLayout {
         lp2.addRule(RelativeLayout.CENTER_IN_PARENT);
         barTitleTv = new TextView(context);
         barTitleTv.setTextSize(18);
-        barTitleTv.setId(R.id.bra_title);
+        barTitleTv.setId(R.id.action_title);
         barTitleTv.setLayoutParams(lp2);
         addView(barTitleTv);
         //
@@ -89,7 +89,7 @@ public class ActionBar extends RelativeLayout {
         barOptionTv.setPadding(20, 5, 20, 5);
         barOptionTv.setGravity(Gravity.CENTER);
         barOptionTv.setTextSize(14);
-        barOptionTv.setId(R.id.bra_option);
+        barOptionTv.setId(R.id.action_option);
         barOptionTv.setLayoutParams(lp3);
         addView(barOptionTv);
     }

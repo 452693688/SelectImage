@@ -81,7 +81,7 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.bra_option) {
+        if (id == R.id.action_option) {
             Bitmap bitmap = enjoyCropLayout.crop();
             File file = FileUtile.createPhotoFile(this, config.filePath, "");
             boolean isSave = BitmapUtile.saveBitmaps(bitmap, file);
@@ -96,7 +96,7 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
             finish();
             return;
         }
-        if (id == R.id.bra_back) {
+        if (id == R.id.action_back) {
             onBackPressed();
             return;
         }

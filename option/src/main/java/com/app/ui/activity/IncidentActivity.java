@@ -102,7 +102,7 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.bra_option) {
+        if (id == R.id.action_option) {
             //更多发送
             ArrayList<ImageEntity> optionImage = adapter.getOptionImage();
             if (optionImage.size() == 0) {
@@ -111,7 +111,7 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
             setResultIntent(Configs.TASK_PICTURE_COMPLETE, optionImage);
             return;
         }
-        if (id == R.id.bra_back) {
+        if (id == R.id.action_back) {
             //返回
             onBackPressed();
             return;

@@ -58,7 +58,7 @@ public class PreviewDeleteActivity extends PreviewActivity {
 
     @Override
     protected void onClick(int id) {
-        if (id == R.id.bra_back) {
+        if (id == R.id.action_back) {
             onBackPressed();
             return;
         }
@@ -67,7 +67,7 @@ public class PreviewDeleteActivity extends PreviewActivity {
             setResultIntent(adapter.getImages());
             return;
         }
-        if (id == R.id.bra_option) {
+        if (id == R.id.action_option) {
             //删除图片
             int count = adapter.getCount();
             boolean isDelect = adapter.isDeleteImage(position);

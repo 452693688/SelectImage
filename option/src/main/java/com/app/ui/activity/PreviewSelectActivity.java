@@ -76,13 +76,13 @@ public class PreviewSelectActivity extends PreviewActivity {
             setSelct();
             return;
         }
-        if (id == R.id.bra_back) {
+        if (id == R.id.action_back) {
             onBackPressed();
             return;
         }
         //发送
         int size = imagePageAdapter.getOptionSize();
-        if (id == R.id.bra_option && size > 0) {
+        if (id == R.id.action_option && size > 0) {
             Intent it = new Intent();
             PreviewImageBean p = new PreviewImageBean();
             p.optionImage = imagePageAdapter.getOptionIamge();
