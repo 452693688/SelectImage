@@ -11,26 +11,26 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.app.ui.adapter.ImageAdapter;
-import com.app.ui.adapter.PopupAdapter;
-import com.app.config.entity.ImageEntity;
-import com.app.ui.bean.ImageFile;
-import com.app.ui.bean.PreviewImageBean;
 import com.app.config.Configs;
+import com.app.config.entity.ImageEntity;
 import com.app.imageselect.R;
 import com.app.photo.DataStore;
 import com.app.photo.PhotoUtile;
 import com.app.photo.PhotosMnager;
-import com.app.unmix.DLog;
+import com.app.ui.adapter.ImageAdapter;
+import com.app.ui.adapter.PopupAdapter;
+import com.app.ui.bean.ImageFile;
+import com.app.ui.bean.PreviewImageBean;
 import com.app.ui.view.ActionBar;
 import com.app.ui.view.ImageGridView;
+import com.app.unmix.DLog;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IncidentActivity extends ImageSelectActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
-    private PhotosMnager imageMnager;
+
 
     private String TAG = "IncidentActivity";
 
@@ -81,12 +81,8 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
     }
 
     private void doRequest() {
-        if (imageMnager == null) {
-            imageMnager = new PhotosMnager(this, config.showCamera);
-            imageMnager.setOnLoadingListener(new LoadingListener());
-        }
-        getSupportLoaderManager().initLoader(PhotosMnager.LOADER_ALL, null, imageMnager);
-
+        PhotosMnager.getInstance().setOnLoadingListener(new LoadingListener());
+        PhotosMnager.getInstance().doRequest(this, config.showCamera);
     }
 
     //照片选择监听
@@ -154,6 +150,7 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
         if (isShow) {
             fileLv.dismiss();
         } else {
+            List<ImageFile> imageFils = PhotosMnager.getInstance().getImgFile();
             popupAdapter.setData(imageFils);
             fileLv.show();
         }
@@ -161,7 +158,8 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
 
     //拍照之后...
     protected void setFile(File imageFile) {
-        ImageEntity image = imageMnager.getImage(Uri.fromFile(imageFile));
+        ImageEntity image = PhotosMnager.getInstance()
+                .getImage(this, Uri.fromFile(imageFile));
         //
         if (image == null) {
             String filePath = imageFile.getParent();
@@ -172,6 +170,7 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
         //加入到文件夹
         boolean isAdd = false;
         int setIndex = config.showCamera ? 1 : 0;
+        List<ImageFile> imageFils = PhotosMnager.getInstance().getImgFile();
         String imageFilePath = imageFile.getParent();
         for (int i = 0; i < imageFils.size(); i++) {
             ImageFile file = imageFils.get(i);
@@ -190,16 +189,14 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
             }
         }
         if (!isAdd) {
-            ImageFile file = imageMnager.getImageFile(new ArrayList<ImageEntity>(), 1);
+            ImageFile file = PhotosMnager.getInstance().getImageFile(new ArrayList<ImageEntity>(),
+                    true, 1);
             file.imags.add(setIndex, image);
             file.size += 1;
             imageFils.add(file);
         }
         setAdapterIamge(imageFils);
     }
-
-
-    private List<ImageFile> imageFils;
 
     //读取数据库照片监听
     class LoadingListener implements PhotosMnager.OnLoadingListener {
@@ -221,8 +218,9 @@ public class IncidentActivity extends ImageSelectActivity implements View.OnClic
             //不显示选择文件夹
             footerRl.setVisibility(View.GONE);
         }
-        imageFils = fils;
+        PhotosMnager.getInstance().setImgFile(fils);
         ImageFile file = fils.get(fileOptionIndex);
+        adapter.setImgFileIndex(fileOptionIndex);
         adapter.setData(file.imags);
     }
 

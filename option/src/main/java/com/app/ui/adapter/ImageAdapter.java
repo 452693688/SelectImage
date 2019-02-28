@@ -40,12 +40,21 @@ public class ImageAdapter extends BaseAdapter {
     private Context contex;
     private boolean isCrop, isCamera;
     private int max;
+    private int imgFileIndex;
 
     public ImageAdapter(Context contex, int max, boolean isCrop, boolean isCamera) {
         this.contex = contex;
         this.max = max;
         this.isCamera = isCamera;
         this.isCrop = isCrop;
+    }
+
+    public void setImgFileIndex(int index) {
+        imgFileIndex = index;
+    }
+
+    public int getImgFileIndex() {
+        return imgFileIndex;
     }
 
     //显示预览数量
@@ -83,6 +92,7 @@ public class ImageAdapter extends BaseAdapter {
     public List<ImageEntity> getImages() {
         return images;
     }
+
 
     @Override
     public int getCount() {
@@ -130,11 +140,12 @@ public class ImageAdapter extends BaseAdapter {
         setShowHint();
         notifyDataSetChanged();
     }
+
     private void addORremovePath(int index) {
         ImageEntity image = images.get(index);
         if (optionFixationPaths.contains(image.imagePathSource)) {
             //图片不能删除
-            ConfigBuild.getBuild().interdictMsg(contex,image);
+            ConfigBuild.getBuild().interdictMsg(contex, image);
             return;
         }
         String path = image.imagePathSource;
@@ -180,7 +191,6 @@ public class ImageAdapter extends BaseAdapter {
         }
         return optionImage;
     }
-
 
     @Override
     public long getItemId(int i) {

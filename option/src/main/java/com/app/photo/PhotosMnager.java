@@ -5,9 +5,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 
 import com.app.config.entity.ImageEntity;
 import com.app.ui.bean.ImageFile;
@@ -21,9 +21,19 @@ import java.util.Set;
 /**
  * Created by Administrator on 2016/10/17.
  */
-public class PhotosMnager implements LoaderManager.LoaderCallbacks<Cursor> {
+public class PhotosMnager {
     private HashMap<String, List<ImageEntity>> map;
-    private boolean showCamera;
+
+    private static PhotosMnager manager;
+    //全部照片
+    private List<ImageFile> images;
+
+    public static PhotosMnager getInstance() {
+        if (manager == null) {
+            manager = new PhotosMnager();
+        }
+        return manager;
+    }
 
     private final String[] IMAGE_PROJECTION = {
             MediaStore.Images.Media.DATA,                  //图片路径
@@ -37,16 +47,27 @@ public class PhotosMnager implements LoaderManager.LoaderCallbacks<Cursor> {
             MediaStore.Images.Media.LONGITUDE,             // 经度
     };
 
-    private Context contet;
-    public static final int LOADER_ALL = 0;
-
-    public PhotosMnager(Context contet, boolean showCamera) {
-        this.contet = contet;
-        this.showCamera = showCamera;
+    public void setImgFile(List<ImageFile> images) {
+        this.images = images;
     }
 
-    public ImageEntity getImage(Uri url) {
-        Cursor data = contet.getContentResolver().query(url,
+    public List<ImageFile> getImgFile() {
+        return images;
+    }
+
+    public List<ImageEntity> getImgs(int index) {
+        return images.get(index).imags;
+    }
+
+    /**
+     * 通过uri 获取一张照片
+     *
+     * @param context
+     * @param url
+     * @return
+     */
+    public ImageEntity getImage(Context context, Uri url) {
+        Cursor data = context.getContentResolver().query(url,
                 IMAGE_PROJECTION, null, null, null);
         ImageEntity image = null;
         if (data != null) {
@@ -68,75 +89,10 @@ public class PhotosMnager implements LoaderManager.LoaderCallbacks<Cursor> {
         return image;
     }
 
-    @Override
-    public Loader onCreateLoader(int id, Bundle args) {
-        CursorLoader cursorLoader = new CursorLoader(contet,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                IMAGE_PROJECTION,
-                null, null, IMAGE_PROJECTION[2] + " DESC");
-        return cursorLoader;
-    }
 
-    @Override
-    public void onLoaderReset(Loader loader) {
-
-    }
-
-    @Override
-    public void onLoadFinished(Loader loader, Cursor data) {
-        if (data == null && onLoadingListener != null) {
-            onLoadingListener.onLoadingListener(null);
-        }
-        if (data == null) {
-            return;
-        }
-        int count = data.getCount();
-        map = new HashMap<>();
-        ArrayList<ImageEntity> imags = new ArrayList<>();
-        if (count > 0) {
-            data.moveToFirst();
-            do {
-                ImageEntity image = readCursor(data);
-                List<ImageEntity> list = map.get(image.imageFileId);
-                if (list == null) {
-                    list = new ArrayList<>();
-                }
-                list.add(image);
-                map.put(image.imageFileId, list);
-                imags.add(image);
-            } while (data.moveToNext());
-            data.close();
-        }
-        if (onLoadingListener == null) {
-            return;
-        }
-        Set<String> keys = map.keySet();
-        //文件夹
-        List<ImageFile> fils = new ArrayList<>();
-        fils.add(getImageFile(imags, 0));
-        for (String key : keys) {
-            List<ImageEntity> list = map.get(key);
-            fils.add(getImageFile(list, 1));
-        }
-        onLoadingListener.onLoadingListener(fils);
-    }
-
-    private ImageEntity readCursor(Cursor data) {
-        ImageEntity image = new ImageEntity();
-        image.imagePathSource = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
-        image.imageName = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
-        image.iamgeTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
-        image.imageId = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[3]));
-        image.imageFileName = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[4]));
-        image.iamgeType = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[5]));
-        image.imageSize = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[6]));
-        image.imageFileId = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[7]));
-        image.iamgeAngle = data.getInt(data.getColumnIndexOrThrow(IMAGE_PROJECTION[8]));
-        return image;
-    }
-
-    //给图片创建一个文件夹
-    public ImageFile getImageFile(List<ImageEntity> iamges, int type) {
+    //创建一个“全部”文件夹
+    public ImageFile getImageFile(List<ImageEntity> iamges,
+                                  boolean showCamera, int type) {
         ImageFile file = new ImageFile();
         file.size = iamges.size();
         if (file.size != 0) {
@@ -161,6 +117,7 @@ public class PhotosMnager implements LoaderManager.LoaderCallbacks<Cursor> {
     }
 
 
+    //==================设置监听======================================
     private OnLoadingListener onLoadingListener;
 
     public void setOnLoadingListener(OnLoadingListener onLoadingListener) {
@@ -169,5 +126,97 @@ public class PhotosMnager implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public interface OnLoadingListener {
         void onLoadingListener(List<ImageFile> fils);
+    }
+
+    //==================读取游标======================================
+    private ImageEntity readCursor(Cursor data) {
+        ImageEntity image = new ImageEntity();
+        image.imagePathSource = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
+        image.imageName = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
+        image.iamgeTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
+        image.imageId = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[3]));
+        image.imageFileName = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[4]));
+        image.iamgeType = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[5]));
+        image.imageSize = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[6]));
+        image.imageFileId = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[7]));
+        image.iamgeAngle = data.getInt(data.getColumnIndexOrThrow(IMAGE_PROJECTION[8]));
+        return image;
+    }
+
+    //================获取照片=====================================
+    private Loader loader;
+    private final int LOADER_ALL = 0;
+
+    //请求获取照片
+    public void doRequest(FragmentActivity activity, boolean isShowCamera) {
+        if (loader == null) {
+            loader = new Loader(activity, isShowCamera);
+        }
+        activity.getSupportLoaderManager().initLoader(LOADER_ALL, null, loader);
+    }
+
+    class Loader implements LoaderManager.LoaderCallbacks<Cursor> {
+        private Context context;
+        private boolean showCamera;
+
+        public Loader(Context context, boolean showCamera) {
+            this.context = context;
+            this.showCamera = showCamera;
+        }
+
+        @Override
+        public android.support.v4.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            CursorLoader cursorLoader = new CursorLoader(context,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    IMAGE_PROJECTION,
+                    null, null, IMAGE_PROJECTION[2] + " DESC");
+            return cursorLoader;
+        }
+
+        @Override
+        public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor data) {
+            if (data == null && onLoadingListener != null) {
+                onLoadingListener.onLoadingListener(null);
+            }
+            if (data == null) {
+                return;
+            }
+            int count = data.getCount();
+            map = new HashMap<>();
+            ArrayList<ImageEntity> imags = new ArrayList<>();
+            if (count > 0) {
+                data.moveToFirst();
+                do {
+                    ImageEntity image = readCursor(data);
+                    List<ImageEntity> list = map.get(image.imageFileId);
+                    if (list == null) {
+                        list = new ArrayList<>();
+                    }
+                    list.add(image);
+                    map.put(image.imageFileId, list);
+                    imags.add(image);
+                } while (data.moveToNext());
+                data.close();
+            }
+            if (onLoadingListener == null) {
+                return;
+            }
+            Set<String> keys = map.keySet();
+            //文件夹
+            List<ImageFile> fils = new ArrayList<>();
+            //全部照片
+            fils.add(getImageFile(imags, showCamera, 0));
+            //按文件夹分类照片
+            for (String key : keys) {
+                List<ImageEntity> list = map.get(key);
+                fils.add(getImageFile(list, showCamera, 1));
+            }
+            onLoadingListener.onLoadingListener(fils);
+        }
+
+        @Override
+        public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
+
+        }
     }
 }

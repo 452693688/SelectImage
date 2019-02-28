@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import com.app.config.ConfigBuild;
 import com.app.config.entity.ImageEntity;
-import com.app.ui.bean.PreviewImageBean;
 import com.app.ui.thing.photoview.PhotoView;
 import com.app.ui.thing.photoview.PhotoViewAttacher;
 
@@ -26,11 +25,13 @@ public class ImagePageAdapter extends PagerAdapter {
     //type 预览类型：1： 全局 2：只预览已选择的图片
     private int type;
 
-    public ImagePageAdapter(Activity activity, PreviewImageBean previewImageBean) {
+    public ImagePageAdapter(Activity activity,int type,
+                            List<ImageEntity> images,
+                            ArrayList<ImageEntity> optionImage) {
         this.activity = activity;
-        type = previewImageBean.type;
-        images = previewImageBean.images;
-        optionImage = previewImageBean.optionImage;
+        this. type = type;
+        this.images =images;
+        this. optionImage = optionImage;
         for (int i = 0; i < optionImage.size(); i++) {
             String imagePath = optionImage.get(i).imagePathSource;
             optionPaths.add(imagePath);

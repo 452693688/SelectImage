@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.app.config.entity.ImageEntity;
 import com.app.imageselect.R;
+import com.app.photo.PhotosMnager;
 import com.app.ui.adapter.ImagePageAdapter;
 import com.app.ui.bean.PreviewImageBean;
 import com.app.ui.view.ActionBar;
@@ -27,7 +28,7 @@ public class PreviewSelectActivity extends PreviewActivity {
         setContentView(R.layout.activity_preview);
         Intent it = getIntent();
         Bundle bundle = it.getExtras();
-        PreviewImageBean previewImageBean = (PreviewImageBean) bundle.get("bean");
+        PreviewImageBean previewBean = (PreviewImageBean) bundle.get("bean");
         //
         bottomRl = findViewById(R.id.bottom_rl);
         rootView = findViewById(R.id.content);
@@ -42,21 +43,25 @@ public class PreviewSelectActivity extends PreviewActivity {
         actionBar.setOnClickListener(this);
         bottomRl.setOnClickListener(this);
         //
-        List<ImageEntity> images = previewImageBean.images;
-        index = previewImageBean.index;
-        if (previewImageBean.type == 1) {
+        List<ImageEntity> images = PhotosMnager.getInstance().getImgs(previewBean.imgFileIndex);
+        index = previewBean.index;
+        //
+        if (previewBean.type == 1) {
             String imagePath = images.get(0).imagePathSource;
             if (TextUtils.isEmpty(imagePath)) {
-                images.remove(0);
+                images = images.subList(1, images.size());
                 index--;
             }
         }
-        imagePageAdapter = new ImagePageAdapter(this, previewImageBean);
+        //
+        imagePageAdapter = new ImagePageAdapter(this,
+                previewBean.type, images, previewBean.optionImage);
+        //
         imagePageAdapter.setPhotoViewClickListener(new PreviewClickList());
         viewPager.setAdapter(imagePageAdapter);
         viewPager.addOnPageChangeListener(new OnPagerChange());
         //
-        config = previewImageBean.config;
+        config = previewBean.config;
         if (config.isMore) {
             max = config.configBuildMore.getImageSelectMaximum();
         }

@@ -78,6 +78,7 @@ public class ImageSelectActivity extends AppCompatActivity {
         fileOptionPath = file.filePath;
         popupAdapter.setIndex(i);
         fileNameTv.setText(file.fileName);
+        adapter.setImgFileIndex(fileOptionIndex);
         adapter.setData(file.imags);
         fileLv.dismiss();
     }
@@ -86,7 +87,7 @@ public class ImageSelectActivity extends AppCompatActivity {
     protected void onImagesClick(int i) {
         if (i == 0 && config.showCamera) {
             //拍照
-            photoFile = PhotoUtile.showCameraAction(this, config,fileOptionPath);
+            photoFile = PhotoUtile.showCameraAction(this, config, fileOptionPath);
             return;
         }
         //可以多选择
@@ -96,7 +97,8 @@ public class ImageSelectActivity extends AppCompatActivity {
             bean.type = 1;
             bean.index = i;
             bean.optionImage = adapter.getOptionImage();
-            bean.images = adapter.getImages();
+            bean.imgFileIndex = adapter.getImgFileIndex();
+            // bean.images = adapter.getImgFile();
             previewImages(bean);
             return;
         }
@@ -125,6 +127,7 @@ public class ImageSelectActivity extends AppCompatActivity {
         it.putExtras(bundle);
         it.setClass(this, PreviewSelectActivity.class);
         startActivityForResult(it, PREVIEW_IMAGE_REQ);
+
     }
 
     //在应用内裁剪
@@ -160,7 +163,7 @@ public class ImageSelectActivity extends AppCompatActivity {
             //应用内裁剪取消
             if (config.isOnlyPhotograph && config.isCrop) {
                 //只拍照 显示拍照
-                photoFile = PhotoUtile.showCameraAction(this, config,fileOptionPath);
+                photoFile = PhotoUtile.showCameraAction(this, config, fileOptionPath);
                 return;
             }
             return;
@@ -273,7 +276,7 @@ public class ImageSelectActivity extends AppCompatActivity {
                 return;
             }
             // 显示拍照
-            photoFile = PhotoUtile.showCameraAction(this, config,fileOptionPath);
+            photoFile = PhotoUtile.showCameraAction(this, config, fileOptionPath);
             return;
         }
         DLog.e(TAG, "裁剪完成：" + cropImagePath);
