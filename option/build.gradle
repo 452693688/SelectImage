@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+
 
 android {
     compileSdkVersion 26
@@ -24,21 +23,4 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:26.0.0'
  }
-//-------------打jar包开始---------------
-task makeJar(type: Copy) {
-    delete 'getBuild/libs/imageselect-1.0.jar'
-    from('getBuild/intermediates/bundles/release/')
-    into('getBuild/libs/')
-    include('classes.jar')
-    rename('classes.jar', 'imageselect-1.0.jar')
-}
 
-makeJar.dependsOn(build)
-//运行命令gradlew makeJar  导出jar包
-//-------------打jar包结束---------------
-
-//--------编码gbk的不可映射字符------------
-
-//----------------------------------发布--------------------------------------------
-// 这个version是区分library版本的，因此当我们需要更新library时记得修改这个version
-version = "1.2.4"
